@@ -1,4 +1,18 @@
 import type { TSession, TConductorProviders } from '../types';
+import type { TSpotifyAlbum } from './spotify/types';
+
+export type TProviderMethods = {
+  spotify: {
+    artist: {
+      getAlbums: (id: string) => Promise<TSpotifyAlbum[]>;
+    };
+  };
+  apple: {
+    artist: {
+      getAlbums: (id: string) => Promise<TAppleAlbum[]>;
+    };
+  };
+};
 
 export interface IProvider<T extends TConductorProviders> {
   setSession(session: TSession<T>): void;
@@ -12,7 +26,7 @@ export interface IProvider<T extends TConductorProviders> {
   };
 
   artist: {
-    getAlbums: (id: string) => Promise<any>;
+    getAlbums: TProviderMethods[T]['artist']['getAlbums'];
   };
 
   track: {

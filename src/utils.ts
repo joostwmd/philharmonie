@@ -1,14 +1,34 @@
-import { Conductor } from './conductor';
-import { Usher } from './usher';
+import type { AppleMusicApiTokens } from './conductor/Conductor';
 
-const conductor = new Conductor(['spotify']);
+export async function makeGetRequest(
+  url: string,
+  tokens: string | AppleMusicApiTokens,
+  provider: string,
+): Promise<any | ProviderError> {
+  try {
+    console.log(`Making GET request to ${provider}...`);
+    return 'Success';
+  } catch (error) {
+    return handleProviderError(error, provider);
+  }
+}
 
-const test = conductor.artist.getAlbums('123');
+export interface ProviderError {
+  provider: string;
+  statusCode: number;
+  message: string;
+}
 
-const usher = new Usher([
-  {
-    name: 'spotify',
-    clientId: '123',
-    clientSecret: '123',
-  },
-]);
+export function handleProviderError(
+  error: any,
+  provider: string,
+): ProviderError {
+  const statusCode = error.response?.status || 500; // Default to 500 if no status code is present
+  const message = error.response?.statusText || 'Unknown Error';
+
+  return {
+    provider,
+    statusCode,
+    message,
+  };
+}

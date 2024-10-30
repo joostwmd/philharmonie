@@ -8,7 +8,7 @@ export type TUsherProviderConfig = {
 
 export type TSession = {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   expiresIn: number;
 };
 
@@ -16,5 +16,9 @@ export interface IUsher {
   refreshSession(
     providerName: TUsherProviders,
     refreshToken: string,
-  ): Promise<void>;
+  ): Promise<TSession>;
+
+  createSession: {
+    withClientCredentials(providerName: TUsherProviders): Promise<TSession>;
+  };
 }

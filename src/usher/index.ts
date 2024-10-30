@@ -1,4 +1,9 @@
-import type { TUsherProviders, IUsher, TUsherProviderConfig } from './types';
+import type {
+  TUsherProviders,
+  IUsher,
+  TUsherProviderConfig,
+  TSession,
+} from './types';
 import type { IUsherProvider } from './providers/types';
 import { SpotifyUsherProvider } from './providers/spotify';
 
@@ -17,6 +22,7 @@ export class Usher implements IUsher {
       switch (provider.name) {
         case 'spotify':
           const spotifyProvider = new SpotifyUsherProvider() as IUsherProvider;
+          spotifyProvider.initWithCredentials(provider);
           this.providers[provider.name] = spotifyProvider;
           break;
         default:
@@ -33,14 +39,27 @@ export class Usher implements IUsher {
     }
   }
 
-  async refreshSession(
+  public async refreshSession(
     providerName: TUsherProviders,
     refreshToken: string,
-  ): Promise<void> {
+  ): Promise<TSession> {
+    this.setCurrentProvider(providerName);
     if (!this.currentProvider) {
       throw new Error('No provider selected');
     }
-    this.setCurrentProvider(providerName);
-    await this.currentProvider.refreshSession(refreshToken);
+    return await this.currentProvider.refreshSession(refreshToken);
   }
+
+  public createSession = {
+    withClientCredentials: async (
+      providerName: TUsherProviders,
+    ): Promise<TSession> => {
+      this.setCurrentProvider(providerName);
+      if (!this.currentProvider) {
+        throw new Error('No provider selected');
+      }
+
+      return await this.currentProvider.createSession.withClientCredentials();
+    },
+  };
 }

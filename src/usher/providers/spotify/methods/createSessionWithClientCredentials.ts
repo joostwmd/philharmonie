@@ -1,10 +1,9 @@
 import type { TSession } from '../../../types';
 
-export async function refreshSession(
+export async function createSessionWithClientCredentials(
   tokenUrl: string,
   clientId: string,
   clientSecret: string,
-  refreshToken: string,
 ): Promise<TSession> {
   const headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -12,8 +11,7 @@ export async function refreshSession(
       'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
   };
   const body = new URLSearchParams({
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken,
+    grant_type: 'client_credentials',
   });
 
   const response = await fetch(tokenUrl, {
@@ -24,8 +22,10 @@ export async function refreshSession(
 
   if (!response.ok) {
     const errorData = await response.json();
-    console.error('Error refreshing token:', errorData);
-    throw new Error('Error refreshing token: ' + response.statusText);
+    console.error('Error requesting client credentials token:', errorData);
+    throw new Error(
+      'Error requesting client credentials token: ' + response.statusText,
+    );
   }
 
   const data = await response.json();
@@ -33,6 +33,5 @@ export async function refreshSession(
   return {
     expiresIn: data.expires_in,
     accessToken: data.access_token,
-    refreshToken: data.refresh_token,
   };
 }
