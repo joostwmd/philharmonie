@@ -23,7 +23,7 @@ export class Artist {
 
   async getSeveralById(
     artistIds: TGetByIdInput[],
-  ): Promise<TGetSeveralArtistsByIdsResponse[]> {
+  ): Promise<TGetSeveralArtistsByIdsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(artistIds.join(','))}`;
     return await makeRequest(url, this.apiKey, 'spotify');
   }
@@ -42,7 +42,7 @@ export class Artist {
 
   async getRelatedArtists(
     artistId: TGetByIdInput,
-  ): Promise<TGetArtistsRelatedArtistsResponse[]> {
+  ): Promise<TGetArtistsRelatedArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/related-artists`;
     return makeRequest(url, this.apiKey, 'spotify');
   }
