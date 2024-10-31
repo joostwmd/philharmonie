@@ -1,5 +1,17 @@
 import { makeRequest } from '../../../../utils';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
+import type {
+  TGetByIdInput,
+  TChangePlaylistDetailsInput,
+  TGetPlaylistItemsInput,
+  TUpdatePlaylistItemsInput,
+  TAddItemsToPlaylistInput,
+  TRemoveItemsFromPlaylistInput,
+  TGetCurrentUserPlaylistsInput,
+  TGetUserPlaylistsInput,
+  TCreatePlaylistInput,
+  TAddCoverImageInput,
+} from '../types/input';
 
 export class Playlist {
   private apiKey: string;
@@ -8,28 +20,26 @@ export class Playlist {
     this.apiKey = apiKey;
   }
 
-  async getById(playlistId: string): Promise<string> {
+  async getById(playlistId: TGetByIdInput): Promise<string> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}`;
     return await makeRequest(url, this.apiKey, 'spotify');
   }
 
-  async changeDetails(
-    playlistId: string,
-    detials: { name: string; description: string; public: boolean },
-  ): Promise<void> {
+  async changeDetails(input: TChangePlaylistDetailsInput): Promise<void> {
+    const { playlistId, details } = input;
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}`;
-    await makeRequest(url, this.apiKey, 'spotify', 'PUT', detials);
+    await makeRequest(url, this.apiKey, 'spotify', 'PUT', details);
   }
 
-  async getItems(
-    playlistId: string,
-    tokens: string,
-    market?: string,
-    fields?: string,
-    limit: number = 20,
-    offset: number = 0,
-    additional_types?: string,
-  ): Promise<any> {
+  async getItems({
+    playlistId,
+    tokens,
+    market,
+    fields,
+    limit = 20,
+    offset = 0,
+    additional_types,
+  }: TGetPlaylistItemsInput): Promise<any> {
     const url = new URL(
       `${SPOTIFY_API_BASE_URL}/${playlistId}/${SPOTIFY_METHODS_PATHS.tracks}`,
     );
@@ -50,16 +60,10 @@ export class Playlist {
     return makeRequest(url.toString(), tokens, 'spotify', 'GET');
   }
 
-  async updatePlaylistItems(
-    playlistId: string,
-    options: {
-      uris?: string[];
-      range_start?: number;
-      insert_before?: number;
-      range_length?: number;
-      snapshot_id?: string;
-    },
-  ): Promise<string> {
+  async updatePlaylistItems({
+    playlistId,
+    options,
+  }: TUpdatePlaylistItemsInput): Promise<string> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = {};
 
@@ -85,11 +89,11 @@ export class Playlist {
     return response.snapshot_id;
   }
 
-  async addItemsToPlaylist(
-    playlistId: string,
-    uris: string[],
-    position?: number,
-  ): Promise<string> {
+  async addItemsToPlaylist({
+    playlistId,
+    uris,
+    position,
+  }: TAddItemsToPlaylistInput): Promise<string> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = { uris };
 
@@ -107,11 +111,11 @@ export class Playlist {
     return response.snapshot_id;
   }
 
-  async removeItemsFromPlaylist(
-    playlistId: string,
-    tracks: { uri: string }[],
-    snapshot_id?: string,
-  ): Promise<string> {
+  async removeItemsFromPlaylist({
+    playlistId,
+    tracks,
+    snapshot_id,
+  }: TRemoveItemsFromPlaylistInput): Promise<string> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = { tracks };
 
@@ -129,10 +133,10 @@ export class Playlist {
     return response.snapshot_id;
   }
 
-  async getCurrentUserPlaylists(
-    limit: number = 20,
-    offset: number = 0,
-  ): Promise<any> {
+  async getCurrentUserPlaylists({
+    limit = 20,
+    offset = 0,
+  }: TGetCurrentUserPlaylistsInput): Promise<any> {
     const url = new URL(`${SPOTIFY_API_BASE_URL}/me/playlists`);
 
     const params: Record<string, string | number> = {
@@ -147,11 +151,11 @@ export class Playlist {
     return await makeRequest(url.toString(), this.apiKey, 'spotify');
   }
 
-  async getUserPlaylists(
-    userId: string,
-    limit: number = 20,
-    offset: number = 0,
-  ): Promise<any> {
+  async getUserPlaylists({
+    userId,
+    limit = 20,
+    offset = 0,
+  }: TGetUserPlaylistsInput): Promise<any> {
     const url = new URL(`${SPOTIFY_API_BASE_URL}/users/${userId}/playlists`);
 
     const params: Record<string, string | number> = {
@@ -166,15 +170,7 @@ export class Playlist {
     return await makeRequest(url.toString(), this.apiKey, 'spotify', 'GET');
   }
 
-  async create(
-    userId: string,
-    name: string,
-    options?: {
-      public?: boolean;
-      collaborative?: boolean;
-      description?: string;
-    },
-  ): Promise<any> {
+  async create({ userId, name, options }: TCreatePlaylistInput): Promise<any> {
     const url = `${SPOTIFY_API_BASE_URL}/users/${userId}/playlists`;
     const body: Record<string, any> = { name };
 
@@ -188,7 +184,10 @@ export class Playlist {
     return await makeRequest(url, this.apiKey, 'spotify', 'POST', body);
   }
 
-  async addCoverImage(playlistId: string, imageData: string): Promise<void> {
+  async addCoverImage({
+    playlistId,
+    imageData,
+  }: TAddCoverImageInput): Promise<void> {
     const url = `${SPOTIFY_API_BASE_URL}/playlists/${playlistId}/images`;
 
     await makeRequest(url, this.apiKey, 'spotify', 'PUT', imageData);
