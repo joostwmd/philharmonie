@@ -23,7 +23,7 @@ export class Album {
 
   async getSeveralById(
     albumIds: TGetByIdInput[],
-  ): Promise<TGetSeveralAlbumsByIdsResponse[]> {
+  ): Promise<TGetSeveralAlbumsByIdsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(albumIds.join(','))}`;
     return await makeRequest(url, this.apiKey, 'spotify');
   }
