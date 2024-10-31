@@ -1,4 +1,4 @@
-import type { AppleMusicApiTokens } from '../../Conductor';
+import type { AppleMusicApiTokens } from '../../../Conductor';
 
 export class Playlist {
   private apiKeys: AppleMusicApiTokens;
