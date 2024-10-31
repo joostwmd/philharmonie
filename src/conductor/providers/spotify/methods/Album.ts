@@ -1,15 +1,17 @@
-import { makeGetRequest } from '../../../utils';
+import { makeGetRequest } from '../../../../utils';
 
 export class Album {
   private apiKey: string;
+  private apiAlbumUrl: string;
 
-  constructor(apiKey: string) {
+  constructor(apiKey: string, apiBaseUrl: string) {
     this.apiKey = apiKey;
+    this.apiAlbumUrl = apiBaseUrl + 'albums/';
   }
 
   async getById(albumId: string): Promise<string> {
     console.log('spotify.album.getById', albumId);
-    const url = `https://api.spotify.com/v1/albums/${albumId}`;
+    const url = `${this.apiAlbumUrl}${albumId}`;
     return await makeGetRequest(url, this.apiKey, 'spotfiy');
   }
 
