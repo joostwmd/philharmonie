@@ -1,6 +1,6 @@
 export const SPOTIFY_API_BASE_URL = 'https://api.spotify.com/v1/';
 export const SPOTIFY_METHODS_PATHS = {
-  user: 'users/',
+  users: 'users/',
   current_user: 'me/',
   albums: 'albums/',
   playlists: 'playlists/',
