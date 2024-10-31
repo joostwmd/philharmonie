@@ -1,17 +1,17 @@
 import { makeGetRequest } from '../../../../utils';
+import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 
 export class Album {
   private apiKey: string;
-  private apiAlbumUrl: string;
 
-  constructor(apiKey: string, apiBaseUrl: string) {
+  constructor(apiKey: string) {
     this.apiKey = apiKey;
-    this.apiAlbumUrl = apiBaseUrl + 'albums/';
   }
 
   async getById(albumId: string): Promise<string> {
     console.log('spotify.album.getById', albumId);
-    const url = `${this.apiAlbumUrl}${albumId}`;
+    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.album}${albumId}`;
+    console.log('url', url);
     return await makeGetRequest(url, this.apiKey, 'spotfiy');
   }
 
