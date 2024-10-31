@@ -40,10 +40,10 @@ export class Album {
     return await makeRequest(url, this.apiKey, 'spotify');
   }
 
-  async saveAlbumForUser(albumId: TGetByIdInput): Promise<void> {
-    console.log('spotify.album.saveAlbum', albumId);
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
-    await makeRequest(url, this.apiKey, 'spotify', 'PUT', { ids: [albumId] });
+  async saveAlbumsForUser(albumIds: string[]): Promise<void> {
+    console.log('spotify.album.saveAlbum', albumIds);
+    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
+    await makeRequest(url, this.apiKey, 'spotify', 'PUT', { ids: [albumIds] });
   }
 
   async removeAlbumForUser(albumId: TGetByIdInput): Promise<void> {
