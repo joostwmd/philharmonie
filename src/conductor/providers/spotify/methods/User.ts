@@ -1,6 +1,12 @@
 import { makeRequest } from '../../../../utils';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TGetByIdInput, TFollowInput } from '../types/input';
+import type {
+  TGetUsersByIdResponse,
+  TGetCurrentUserResponse,
+  TGetUsersTopItemsResponse,
+  TGetFollowedArtistsResponse,
+} from '../types/response';
 
 export class User {
   private apiToken: string;
@@ -9,17 +15,19 @@ export class User {
     this.apiToken = apiToken;
   }
 
-  async getUserById(userId: TGetByIdInput): Promise<string> {
+  async getUserById(userId: TGetByIdInput): Promise<TGetUsersByIdResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.users}${userId}`;
     return makeRequest(url, this.apiToken, 'spotify');
   }
 
-  async getCurrentUser(): Promise<string> {
+  async getCurrentUser(): Promise<TGetCurrentUserResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}`;
     return makeRequest(url, this.apiToken, 'spotify');
   }
 
-  async getCurrentUserTopItems(type: 'artists' | 'tracks'): Promise<string> {
+  async getCurrentUserTopItems(
+    type: 'artists' | 'tracks',
+  ): Promise<TGetUsersTopItemsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}top/${type}`;
     return makeRequest(url, this.apiToken, 'spotify');
   }
@@ -34,7 +42,7 @@ export class User {
     await makeRequest(url, this.apiToken, 'spotify', 'DELETE');
   }
 
-  async getFollowedArtists(): Promise<string> {
+  async getFollowedArtists(): Promise<TGetFollowedArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following?type=artist`;
     return makeRequest(url, this.apiToken, 'spotify');
   }
@@ -57,7 +65,7 @@ export class User {
     return makeRequest(url, this.apiToken, 'spotify');
   }
 
-  async checkIfFollowsPlaylist(playlistId: TGetByIdInput): Promise<boolean> {
+  async checkIfFollowsPlaylist(playlistId: TGetByIdInput): Promise<[boolean]> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/followers/contains`;
     return makeRequest(url, this.apiToken, 'spotify');
   }

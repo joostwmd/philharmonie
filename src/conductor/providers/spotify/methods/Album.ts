@@ -1,7 +1,12 @@
 import { makeRequest } from '../../../../utils';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
-import type { ISpotifyAlbum, ISpotifyAlbumTracksResponse } from '../types';
 import type { TGetByIdInput } from '../types/input';
+import type {
+  TGetAlbumByIdResponse,
+  TGetAlbumTracksResponse,
+  TGetSeveralAlbumsByIdsResponse,
+  TGetUsersSavedAlbumsResponse,
+} from '../types/response';
 
 export class Album {
   private apiKey: string;
@@ -10,26 +15,26 @@ export class Album {
     this.apiKey = apiKey;
   }
 
-  async getById(albumId: TGetByIdInput): Promise<ISpotifyAlbum> {
+  async getById(albumId: TGetByIdInput): Promise<TGetAlbumByIdResponse> {
     console.log('spotify.album.getById', albumId);
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
     return await makeRequest(url, this.apiKey, 'spotify');
   }
 
-  async getSeveralById(albumIds: TGetByIdInput[]): Promise<ISpotifyAlbum[]> {
+  async getSeveralById(
+    albumIds: TGetByIdInput[],
+  ): Promise<TGetSeveralAlbumsByIdsResponse[]> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(albumIds.join(','))}`;
     return await makeRequest(url, this.apiKey, 'spotify');
   }
 
-  async getTracks(
-    albumId: TGetByIdInput,
-  ): Promise<ISpotifyAlbumTracksResponse> {
+  async getTracks(albumId: TGetByIdInput): Promise<TGetAlbumTracksResponse> {
     console.log('spotify.album.getTracks', albumId);
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}/tracks`;
     return await makeRequest(url, this.apiKey, 'spotify');
   }
 
-  async getUsersSavedAlbums(): Promise<ISpotifyAlbum[]> {
+  async getUsersSavedAlbums(): Promise<TGetUsersSavedAlbumsResponse> {
     console.log('spotify.album.getUsersSavedAlbums');
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
     return await makeRequest(url, this.apiKey, 'spotify');
