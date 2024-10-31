@@ -16,11 +16,8 @@ export class Album {
   }
 
   async getSeveralById(albumIds: string[]): Promise<ISpotifyAlbum[]> {
-    console.log('spotify.album.getSeveralById', albumIds);
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}`;
-    return await makeRequest(url, this.apiKey, 'spotify', 'GET', {
-      ids: albumIds,
-    });
+    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(albumIds.join(','))}`;
+    return await makeRequest(url, this.apiKey, 'spotify');
   }
 
   async getTracks(albumId: string): Promise<ISpotifyAlbumTracksResponse> {
