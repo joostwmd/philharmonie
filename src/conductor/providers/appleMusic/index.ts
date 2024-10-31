@@ -2,7 +2,7 @@
 
 import type { AppleMusicApiTokens } from '../../Conductor';
 import { Album } from './methods/Album';
-import { Playlist } from './Playlist';
+import { Playlist } from './methods/Playlist';
 
 export class AppleMusic {
   public album: Album;
