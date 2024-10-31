@@ -1,4 +1,4 @@
-import { makeGetRequest } from '../../../../utils';
+import { makeRequest } from '../../../../utils';
 
 export class Playlist {
   private apiKey: string;
@@ -9,7 +9,7 @@ export class Playlist {
 
   async getTracks(playlistId: string): Promise<string> {
     const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
-    return await makeGetRequest(url, this.apiKey, 'spotfiy');
+    return await makeRequest(url, this.apiKey, 'spotfiy');
   }
 
   // Add more playlist-related methods here as needed
