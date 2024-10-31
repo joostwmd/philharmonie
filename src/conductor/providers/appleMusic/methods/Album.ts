@@ -1,4 +1,4 @@
-import { makeGetRequest } from '../../../../utils';
+import { makeRequest } from '../../../../utils';
 import type { AppleMusicApiTokens } from '../../../Conductor';
 
 export class Album {
@@ -11,8 +11,7 @@ export class Album {
   async getById(albumId: string): Promise<number> {
     console.log('apple-music.album.getById', albumId);
     const url = `https://api.spotify.com/v1/albums/${albumId}`;
-    return await makeGetRequest(url, this.apiKeys, 'apple-music');
-    return 0;
+    return await makeRequest(url, this.apiKeys, 'apple-music');
   }
 
   // Add more album-related methods here as needed
