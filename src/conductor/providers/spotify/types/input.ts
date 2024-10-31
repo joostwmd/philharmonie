@@ -118,3 +118,12 @@ export type TFollowInput = {
   type: 'artist' | 'user';
   ids: string[];
 };
+
+export interface TSearchInput {
+  query: string;
+  type: string[];
+  market?: string;
+  limit?: number;
+  offset?: number;
+  include_external?: string;
+}
