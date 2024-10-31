@@ -91,3 +91,52 @@ export interface ISpotifyAlbum {
   label: string;
   popularity: number;
 }
+
+export interface ISpotifyAlbumTracksResponse {
+  href: string;
+  limit: number;
+  next: string;
+  offset: number;
+  previous: string;
+  total: number;
+  items: Array<{
+    artists: Array<{
+      external_urls: {
+        spotify: string;
+      };
+      href: string;
+      id: string;
+      name: string;
+      type: string;
+      uri: string;
+    }>;
+    available_markets: string[];
+    disc_number: number;
+    duration_ms: number;
+    explicit: boolean;
+    external_urls: {
+      spotify: string;
+    };
+    href: string;
+    id: string;
+    is_playable: boolean;
+    linked_from?: {
+      external_urls: {
+        spotify: string;
+      };
+      href: string;
+      id: string;
+      type: string;
+      uri: string;
+    };
+    restrictions?: {
+      reason: string;
+    };
+    name: string;
+    preview_url: string;
+    track_number: number;
+    type: string;
+    uri: string;
+    is_local: boolean;
+  }>;
+}
