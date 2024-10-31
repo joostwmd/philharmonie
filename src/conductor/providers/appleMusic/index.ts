@@ -1,7 +1,7 @@
 // src/providers/spotify/Spotify.ts
 
 import type { AppleMusicApiTokens } from '../../Conductor';
-import { Album } from './Album';
+import { Album } from './methods/Album';
 import { Playlist } from './Playlist';
 
 export class AppleMusic {

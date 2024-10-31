@@ -1,5 +1,5 @@
-import { makeGetRequest } from '../../../utils';
-import type { AppleMusicApiTokens } from '../../Conductor';
+import { makeGetRequest } from '../../../../utils';
+import type { AppleMusicApiTokens } from '../../../Conductor';
 
 export class Album {
   private apiKeys: AppleMusicApiTokens;

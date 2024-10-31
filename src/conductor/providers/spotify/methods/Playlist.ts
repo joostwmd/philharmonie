@@ -1,4 +1,4 @@
-import { makeGetRequest } from '../../../utils';
+import { makeGetRequest } from '../../../../utils';
 
 export class Playlist {
   private apiKey: string;

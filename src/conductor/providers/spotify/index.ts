@@ -1,7 +1,7 @@
 // src/providers/spotify/Spotify.ts
 
-import { Album } from './Album';
-import { Playlist } from './Playlist';
+import { Album } from './methods/Album';
+import { Playlist } from './methods/Playlist';
 
 export class Spotify {
   public album: Album;
