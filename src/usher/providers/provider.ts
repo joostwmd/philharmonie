@@ -1,13 +1,12 @@
-import type { TSession, TUsherProviderConfig } from '../types';
-import type { IUsherProvider } from './types';
+import type { TSession, TUsherProviderCredentials } from '../types';
 
-export abstract class UsherProvider implements IUsherProvider {
-  protected clientId!: string;
-  protected clientSecret!: string;
+export abstract class UsherProvider {
+  protected clientId: string;
+  protected clientSecret: string;
 
-  initWithCredentials(config: TUsherProviderConfig): void {
-    this.clientId = config.clientId;
-    this.clientSecret = config.clientSecret;
+  constructor(providersConfig: TUsherProviderCredentials) {
+    this.clientId = providersConfig.clientId;
+    this.clientSecret = providersConfig.clientSecret;
   }
 
   abstract refreshSession(refreshToken: string): Promise<TSession>;
