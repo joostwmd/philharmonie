@@ -1,9 +1,12 @@
 export type TUsherProviders = 'spotify' | 'tidal' | 'amazon';
 
-export type TUsherProviderConfig = {
-  name: TUsherProviders;
+export type TUsherProviderCredentials = {
   clientId: string;
   clientSecret: string;
+};
+
+export type TUsherProviderConfig = {
+  [key in TUsherProviders]: TUsherProviderCredentials;
 };
 
 export type TSession = {
@@ -11,14 +14,3 @@ export type TSession = {
   refreshToken?: string;
   expiresIn: number;
 };
-
-export interface IUsher {
-  refreshSession(
-    providerName: TUsherProviders,
-    refreshToken: string,
-  ): Promise<TSession>;
-
-  createSession: {
-    withClientCredentials(providerName: TUsherProviders): Promise<TSession>;
-  };
-}
