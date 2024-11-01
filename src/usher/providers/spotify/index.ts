@@ -18,8 +18,6 @@ export class SpotifyUsherProvider extends UsherProvider {
 
   createSession = {
     withClientCredentials: async (): Promise<TSession> => {
-      console.log('Creating Spotify session with client credentials');
-
       return await createSessionWithClientCredentials(
         SPOTIFY_TOKEN_URL,
         this.clientId,
