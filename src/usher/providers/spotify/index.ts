@@ -1,5 +1,5 @@
 import type { TSession } from '../../types';
-import { UsherProvider } from '../provider';
+import { UsherProvider } from '../Provider';
 import { SPOTIFY_TOKEN_URL } from './constants';
 import { refreshSession } from './methods/refreshSession';
 import { createSessionWithClientCredentials } from './methods/createSessionWithClientCredentials';
