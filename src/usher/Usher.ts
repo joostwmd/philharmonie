@@ -5,6 +5,6 @@ export class Usher {
   public spotify: SpotifyUsherProvider;
 
   constructor(providersConfig: TUsherProviderConfig) {
-    this.spotify = new SpotifyUsherProvider();
+    this.spotify = new SpotifyUsherProvider(providersConfig.spotify);
   }
 }
