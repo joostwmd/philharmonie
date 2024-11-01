@@ -5,7 +5,7 @@ export function constructHeader(
   tokens: string | AppleMusicApiTokens,
   provider: string,
 ): HeadersInit {
-  if (provider === 'apple') {
+  if (provider === 'appleMusic') {
     const appleTokens = tokens as AppleMusicApiTokens;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
@@ -58,6 +58,7 @@ export async function makeRequest(
 }
 
 export interface ProviderError {
+  failed: true;
   url: string;
   provider: string;
   statusCode: number;
@@ -81,6 +82,7 @@ export function handleProviderError(
   }
 
   return {
+    failed: true,
     url,
     provider,
     statusCode,
