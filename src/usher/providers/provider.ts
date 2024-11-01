@@ -4,9 +4,9 @@ export abstract class UsherProvider {
   protected clientId: string;
   protected clientSecret: string;
 
-  constructor(providersConfig: TUsherProviderCredentials) {
-    this.clientId = providersConfig.clientId;
-    this.clientSecret = providersConfig.clientSecret;
+  constructor(providerCredentials: TUsherProviderCredentials) {
+    this.clientId = providerCredentials.clientId;
+    this.clientSecret = providerCredentials.clientSecret;
   }
 
   abstract refreshSession(refreshToken: string): Promise<TSession>;
