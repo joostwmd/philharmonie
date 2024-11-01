@@ -1,4 +1,4 @@
-import { Usher } from './usher';
+import { Garderobe } from './garderobe/Garderobe';
 import { Conductor } from './conductor';
 
-export { Usher, Conductor };
+export { Garderobe, Conductor };
