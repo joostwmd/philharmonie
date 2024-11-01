@@ -1,16 +1,10 @@
-import type {
-  TUsherProviders,
-  IUsher,
-  TUsherProviderConfig,
-  TSession,
-} from './types';
-import type { IUsherProvider } from './providers/types';
+import type { TUsherProviderConfig } from './types';
 import { SpotifyUsherProvider } from './providers/spotify';
 
-export class Usher implements IUsher {
+export class Usher {
   public spotify: SpotifyUsherProvider;
 
-  constructor(providersConfigs: TUsherProviderConfig[]) {
+  constructor(providersConfig: TUsherProviderConfig) {
     this.spotify = new SpotifyUsherProvider();
   }
 }
