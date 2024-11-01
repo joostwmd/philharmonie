@@ -1,10 +1,10 @@
 import type { TSession } from '../../types';
-import { UsherProvider } from '../Provider';
+import { GarderobeProvider } from '../Provider';
 import { SPOTIFY_TOKEN_URL } from './constants';
 import { refreshSession } from './methods/refreshSession';
 import { createSessionWithClientCredentials } from './methods/createSessionWithClientCredentials';
 
-export class SpotifyUsherProvider extends UsherProvider {
+export class SpotifyGarderobeProvider extends GarderobeProvider {
   async refreshSession(refreshToken: string): Promise<TSession> {
     console.log('Refreshing Spotify session');
 

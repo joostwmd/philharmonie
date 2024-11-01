@@ -1,10 +1,10 @@
-import type { TSession, TUsherProviderCredentials } from '../types';
+import type { TSession, TGarderobeProviderCredentials } from '../types';
 
-export abstract class UsherProvider {
+export abstract class GarderobeProvider {
   protected clientId: string;
   protected clientSecret: string;
 
-  constructor(providerCredentials: TUsherProviderCredentials) {
+  constructor(providerCredentials: TGarderobeProviderCredentials) {
     this.clientId = providerCredentials.clientId;
     this.clientSecret = providerCredentials.clientSecret;
   }
