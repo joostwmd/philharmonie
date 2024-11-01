@@ -5,6 +5,7 @@ export class Usher {
   public spotify: SpotifyUsherProvider;
 
   constructor(providersConfig: TUsherProviderConfig) {
+    console.log('Creating Usher instance', providersConfig.spotify);
     this.spotify = new SpotifyUsherProvider(providersConfig.spotify);
   }
 }
