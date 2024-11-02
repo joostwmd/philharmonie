@@ -1,5 +1,4 @@
-import { makeRequest } from '../../../../utils';
-import type { AppleMusicApiTokens } from '../../../Conductor';
+import type { AppleMusic } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
 import type {
   TAddTracksToPlaylistInput,
@@ -8,10 +7,10 @@ import type {
 import type { PlaylistResponse, SongResponse } from '../types/response';
 
 export class Playlist {
-  private apiKeys: AppleMusicApiTokens;
+  private provider: AppleMusic;
 
-  constructor(apiKeys: AppleMusicApiTokens) {
-    this.apiKeys = apiKeys;
+  constructor(provider: AppleMusic) {
+    this.provider = provider;
   }
 
   async getById(playlistId: string): Promise<PlaylistResponse> {
@@ -19,12 +18,12 @@ export class Playlist {
       `${APPLE_MUSIC_BASE_URL}/me/library/playlists/${playlistId}`,
     );
 
-    return makeRequest(url.toString(), this.apiKeys, 'appleMusic', 'GET');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async getCurrentUserPlaylists(): Promise<PlaylistResponse> {
     const url = new URL(`${APPLE_MUSIC_BASE_URL}/me/library/playlists`);
-    return makeRequest(url.toString(), this.apiKeys, 'appleMusic', 'GET');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async create(input: TCreatePlaylistInput): Promise<PlaylistResponse> {
@@ -42,13 +41,7 @@ export class Playlist {
       },
     };
 
-    return makeRequest(
-      url.toString(),
-      this.apiKeys,
-      'appleMusic',
-      'POST',
-      body,
-    );
+    return await this.provider.makeRequest(url.toString(), 'POST', body);
   }
 
   async addTracksToPlaylist(input: TAddTracksToPlaylistInput): Promise<void> {
@@ -68,17 +61,11 @@ export class Playlist {
       })),
     };
 
-    return makeRequest(
-      url.toString(),
-      this.apiKeys,
-      'appleMusic',
-      'POST',
-      body,
-    );
+    return await this.provider.makeRequest(url.toString(), 'POST', body);
   }
 
   async getUserPlaylistTracks(playlistId: string): Promise<SongResponse> {
     const url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.current_user}${APPLE_MUSIC_METHODS_PATHS.library}${APPLE_MUSIC_METHODS_PATHS.playlists}${playlistId}/tracks`;
-    return makeRequest(url, this.apiKeys, 'appleMusic');
+    return await this.provider.makeRequest(url);
   }
 }

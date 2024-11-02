@@ -1,4 +1,4 @@
-import { makeRequest } from '../../../../utils';
+import type { Spotify } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type {
   TGetByIdInput,
@@ -21,21 +21,21 @@ import type {
 } from '../types/response';
 
 export class Playlist {
-  private apiKey: string;
+  private provider: Spotify;
 
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
+  constructor(provider: Spotify) {
+    this.provider = provider;
   }
 
   async getById(playlistId: TGetByIdInput): Promise<TGetPlaylistByIdResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}`;
-    return await makeRequest(url, this.apiKey, 'spotify');
+    return await this.provider.makeRequest(url);
   }
 
   async changeDetails(input: TChangePlaylistDetailsInput): Promise<void> {
     const { playlistId, details } = input;
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}`;
-    await makeRequest(url, this.apiKey, 'spotify', 'PUT', details);
+    return await this.provider.makeRequest(url, 'PUT', details);
   }
 
   async getItems({
@@ -64,7 +64,7 @@ export class Playlist {
       url.searchParams.append(key, String(params[key])),
     );
 
-    return makeRequest(url.toString(), tokens, 'spotify', 'GET');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async updatePlaylistItems({
@@ -86,14 +86,7 @@ export class Playlist {
       if (options.snapshot_id) body.snapshot_id = options.snapshot_id;
     }
 
-    const response = await makeRequest(
-      url,
-      this.apiKey,
-      'spotify',
-      'PUT',
-      body,
-    );
-    return response.snapshot_id;
+    return await this.provider.makeRequest(url, 'PUT', body);
   }
 
   async addItemsToPlaylist({
@@ -108,14 +101,7 @@ export class Playlist {
       body.position = position;
     }
 
-    const response = await makeRequest(
-      url,
-      this.apiKey,
-      'spotify',
-      'POST',
-      body,
-    );
-    return response.snapshot_id;
+    return await this.provider.makeRequest(url, 'POST', body);
   }
 
   async removeItemsFromPlaylist({
@@ -130,14 +116,7 @@ export class Playlist {
       body.snapshot_id = snapshot_id;
     }
 
-    const response = await makeRequest(
-      url,
-      this.apiKey,
-      'spotify',
-      'DELETE',
-      body,
-    );
-    return response.snapshot_id;
+    return await this.provider.makeRequest(url, 'DELETE', body);
   }
 
   async getCurrentUserPlaylists({
@@ -157,7 +136,7 @@ export class Playlist {
       url.searchParams.append(key, String(params[key])),
     );
 
-    return await makeRequest(url.toString(), this.apiKey, 'spotify');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async getUserPlaylists({
@@ -178,7 +157,7 @@ export class Playlist {
       url.searchParams.append(key, String(params[key])),
     );
 
-    return await makeRequest(url.toString(), this.apiKey, 'spotify', 'GET');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async create({
@@ -196,7 +175,7 @@ export class Playlist {
       if (options.description) body.description = options.description;
     }
 
-    return await makeRequest(url, this.apiKey, 'spotify', 'POST', body);
+    return await this.provider.makeRequest(url, 'POST', body);
   }
 
   async addCoverImage({
@@ -205,6 +184,6 @@ export class Playlist {
   }: TAddCoverImageInput): Promise<void> {
     const url = `${SPOTIFY_API_BASE_URL}/playlists/${playlistId}/images`;
 
-    await makeRequest(url, this.apiKey, 'spotify', 'PUT', imageData);
+    return await this.provider.makeRequest(url, 'PUT', imageData);
   }
 }

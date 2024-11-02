@@ -1,17 +1,6 @@
-// src/Conductor.ts
-
 import { Spotify } from './providers/spotify';
 import { AppleMusic } from './providers/appleMusic';
-
-export type AppleMusicApiTokens = {
-  developerToken: string;
-  userToken?: string;
-};
-
-interface APITokens {
-  spotify?: string;
-  appleMusic?: AppleMusicApiTokens;
-}
+import type { APITokens } from './types';
 
 export class Conductor {
   public spotify: Spotify;

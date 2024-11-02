@@ -1,4 +1,4 @@
-import type { AppleMusicApiTokens } from './conductor/Conductor';
+import type { AppleMusicApiTokens } from './conductor/types';
 type HeadersInit = Headers | string[][] | Record<string, string>;
 
 export function constructHeader(
@@ -25,7 +25,7 @@ export function constructHeader(
   }
 }
 
-export async function makeRequest(
+export async function handleMakeRequest(
   url: string,
   tokens: string | AppleMusicApiTokens,
   provider: string,

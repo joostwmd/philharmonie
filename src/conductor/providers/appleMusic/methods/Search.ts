@@ -1,14 +1,13 @@
-import { makeRequest } from '../../../../utils';
-import type { AppleMusicApiTokens } from '../../../Conductor';
+import type { AppleMusic } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
 import type { TSearchCatalogItemInput } from '../types/inputs';
 import type { SearchResultsResponse } from '../types/response';
 
 export class Search {
-  private apiTokens: AppleMusicApiTokens;
+  private provider: AppleMusic;
 
-  constructor(apiTokens: AppleMusicApiTokens) {
-    this.apiTokens = apiTokens;
+  constructor(provider: AppleMusic) {
+    this.provider = provider;
   }
 
   async searchCatalog(
@@ -44,11 +43,6 @@ export class Search {
       }
     });
 
-    return await makeRequest(
-      url.toString(),
-      this.apiTokens,
-      'appleMusic',
-      'GET',
-    );
+    return await this.provider.makeRequest(url.toString(), 'GET');
   }
 }

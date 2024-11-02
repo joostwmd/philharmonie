@@ -1,27 +1,22 @@
-import { makeRequest } from '../../../../utils';
-import type { AppleMusicApiTokens } from '../../../Conductor';
+import type { AppleMusic } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
 import type { SongResponse } from '../types/response';
 
 export class Song {
-  private apiTokens: AppleMusicApiTokens;
+  private provider: AppleMusic;
 
-  constructor(apiTokens: AppleMusicApiTokens) {
-    this.apiTokens = apiTokens;
+  constructor(provider: AppleMusic) {
+    this.provider = provider;
   }
 
   async getCatalogSongById(id: string): Promise<SongResponse> {
     const url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${'us/'}${APPLE_MUSIC_METHODS_PATHS.songs}${id}`;
-    return await makeRequest(url, this.apiTokens, 'appleMusic');
+    return await this.provider.makeRequest(url);
   }
 
   async getSeveralCatalogSongsByIds(ids: string[]): Promise<SongResponse> {
-    if (ids.length > 25) {
-      throw new Error('The maximum number of IDs is 25');
-    }
-
     const url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${'us/'}${APPLE_MUSIC_METHODS_PATHS.songs}?ids=${ids.join(',')}`;
-    return await makeRequest(url, this.apiTokens, 'appleMusic');
+    return await this.provider.makeRequest(url);
   }
 
   async getMultipleByISRC(
@@ -43,7 +38,7 @@ export class Song {
       url.searchParams.append(key, params[key]!),
     );
 
-    return makeRequest(url.toString(), this.apiTokens, 'appleMusic', 'GET');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async getSavedTracks(
@@ -64,7 +59,7 @@ export class Song {
       url.searchParams.append(key, params[key]!),
     );
 
-    return makeRequest(url.toString(), this.apiTokens, 'appleMusic', 'GET');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async saveTracksForUser(
@@ -83,6 +78,6 @@ export class Song {
       url.searchParams.append(key, params[key]!),
     );
 
-    await makeRequest(url.toString(), this.apiTokens, 'appleMusic', 'POST');
+    await await this.provider.makeRequest(url.toString(), 'POST');
   }
 }

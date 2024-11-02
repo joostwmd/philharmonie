@@ -1,11 +1,12 @@
-import type { AppleMusicApiTokens } from '../../Conductor';
+import type { AppleMusicApiTokens } from '../../types';
+import { ConductorProvider } from '../Provider';
 import { Album } from './methods/Album';
 import { Playlist } from './methods/Playlist';
 import { Search } from './methods/Search';
 import { Song } from './methods/Song';
 import { User } from './methods/User';
 
-export class AppleMusic {
+export class AppleMusic extends ConductorProvider {
   public album: Album;
   public playlist: Playlist;
   public song: Song;
@@ -13,10 +14,12 @@ export class AppleMusic {
   public user: User;
 
   constructor(apiTokens: AppleMusicApiTokens) {
-    this.album = new Album(apiTokens);
-    this.playlist = new Playlist(apiTokens);
-    this.song = new Song(apiTokens);
-    this.search = new Search(apiTokens);
-    this.user = new User(apiTokens);
+    super(apiTokens, 'appleMusic');
+
+    this.album = new Album(this);
+    this.playlist = new Playlist(this);
+    this.song = new Song(this);
+    this.search = new Search(this);
+    this.user = new User(this);
   }
 }

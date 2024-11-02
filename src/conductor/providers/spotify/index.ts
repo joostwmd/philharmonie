@@ -4,8 +4,9 @@ import { User } from './methods/User';
 import { Track } from './methods/Track';
 import { Artist } from './methods/Artist';
 import { Search } from './methods/Search';
+import { ConductorProvider } from '../Provider';
 
-export class Spotify {
+export class Spotify extends ConductorProvider {
   public album: Album;
   public playlist: Playlist;
   public user: User;
@@ -14,11 +15,13 @@ export class Spotify {
   public search: Search;
 
   constructor(apiToken: string) {
-    this.album = new Album(apiToken);
-    this.playlist = new Playlist(apiToken);
-    this.user = new User(apiToken);
-    this.track = new Track(apiToken);
-    this.artist = new Artist(apiToken);
-    this.search = new Search(apiToken);
+    super(apiToken, 'spotify');
+
+    this.album = new Album(this);
+    this.playlist = new Playlist(this);
+    this.user = new User(this);
+    this.track = new Track(this);
+    this.artist = new Artist(this);
+    this.search = new Search(this);
   }
 }
