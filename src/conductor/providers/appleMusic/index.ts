@@ -18,7 +18,7 @@ export class AppleMusic extends Provider {
 
     this.album = new Album(this);
     this.playlist = new Playlist(this);
-    this.song = new Song(apiTokens);
+    this.song = new Song(this);
     this.search = new Search(this);
     this.user = new User(apiTokens);
   }
