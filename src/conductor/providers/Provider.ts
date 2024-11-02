@@ -1,7 +1,7 @@
 import { handleMakeRequest } from '../../utils';
-import type { AppleMusicApiTokens } from '../Conductor';
+import type { AppleMusicApiTokens } from '../types';
 
-export abstract class Provider {
+export abstract class ConductorProvider {
   protected tokens: string | AppleMusicApiTokens;
   protected providerName: string;
 
