@@ -16,7 +16,7 @@ export class AppleMusic extends Provider {
   constructor(apiTokens: AppleMusicApiTokens) {
     super(apiTokens, 'appleMusic');
 
-    this.album = new Album(apiTokens);
+    this.album = new Album(this);
     this.playlist = new Playlist(apiTokens);
     this.song = new Song(apiTokens);
     this.search = new Search(apiTokens);
