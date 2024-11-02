@@ -1,5 +1,4 @@
 import type { Spotify } from '..';
-import { makeRequest } from '../../../../utils';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TSearchInput } from '../types/input';
 import type { TSearchResponse } from '../types/response';
@@ -38,6 +37,6 @@ export class Search {
       url.searchParams.append(key, String(params[key])),
     );
 
-    return this.provider.makeRequest(url.toString());
+    return await this.provider.makeRequest(url.toString());
   }
 }
