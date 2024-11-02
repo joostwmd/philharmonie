@@ -1,13 +1,14 @@
+import type { Spotify } from '..';
 import { makeRequest } from '../../../../utils';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TSearchInput } from '../types/input';
 import type { TSearchResponse } from '../types/response';
 
 export class Search {
-  private apiKey: string;
+  private provider: Spotify;
 
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
+  constructor(provider: Spotify) {
+    this.provider = provider;
   }
 
   async forItem(input: TSearchInput): Promise<TSearchResponse> {
@@ -37,6 +38,6 @@ export class Search {
       url.searchParams.append(key, String(params[key])),
     );
 
-    return makeRequest(url.toString(), this.apiKey, 'spotify', 'GET');
+    return this.provider.makeRequest(url.toString());
   }
 }
