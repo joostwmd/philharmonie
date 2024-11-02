@@ -39,16 +39,16 @@ export class Album {
 
   async saveAlbumsForUser(albumIds: string[]): Promise<void> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
-    return this.provider.makeRequest(url, 'PUT', { ids: [albumIds] });
+    return await this.provider.makeRequest(url, 'PUT', { ids: [albumIds] });
   }
 
   async removeAlbumForUser(albumId: TGetByIdInput): Promise<void> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
-    return this.provider.makeRequest(url, 'DELETE', { ids: [albumId] });
+    return await this.provider.makeRequest(url, 'DELETE', { ids: [albumId] });
   }
 
   async checkUsersSavedAlbums(albumIds: TGetByIdInput[]): Promise<boolean[]> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}contains`;
-    return this.provider.makeRequest(url, 'GET', { ids: albumIds });
+    return await this.provider.makeRequest(url, 'GET', { ids: albumIds });
   }
 }
