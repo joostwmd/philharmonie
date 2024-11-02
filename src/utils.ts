@@ -25,7 +25,7 @@ export function constructHeader(
   }
 }
 
-export async function makeRequest(
+export async function handleMakeRequest(
   url: string,
   tokens: string | AppleMusicApiTokens,
   provider: string,
@@ -88,4 +88,36 @@ export function handleProviderError(
     statusCode,
     message,
   };
+}
+
+export async function makeRequest(
+  url: string,
+  tokens: string | AppleMusicApiTokens,
+  provider: string,
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+  body?: any,
+): Promise<any | ProviderError> {
+  try {
+    console.log(
+      `Making ${method} request to ${provider}. The endpoint is ${url}`,
+    );
+
+    const headers = constructHeader(tokens, provider);
+
+    console.log('headers', headers);
+
+    const response = await fetch(url, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    if (!response.ok) {
+      return handleProviderError(response, url, provider);
+    }
+
+    return await response.json();
+  } catch (error) {
+    return handleProviderError(error, url, provider);
+  }
 }
