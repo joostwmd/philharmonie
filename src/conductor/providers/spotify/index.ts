@@ -4,8 +4,9 @@ import { User } from './methods/User';
 import { Track } from './methods/Track';
 import { Artist } from './methods/Artist';
 import { Search } from './methods/Search';
+import { Provider } from '../Provider';
 
-export class Spotify {
+export class Spotify extends Provider {
   public album: Album;
   public playlist: Playlist;
   public user: User;
@@ -14,7 +15,9 @@ export class Spotify {
   public search: Search;
 
   constructor(apiToken: string) {
-    this.album = new Album(apiToken);
+    super(apiToken, 'spotify');
+
+    this.album = new Album(this);
     this.playlist = new Playlist(apiToken);
     this.user = new User(apiToken);
     this.track = new Track(apiToken);
