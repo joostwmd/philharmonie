@@ -1,12 +1,12 @@
-import type { AppleMusicApiTokens } from './conductor/types';
+import type { TAppleMusicApiTokens, TOAuthApiTokens } from './conductor/types';
 type HeadersInit = Headers | string[][] | Record<string, string>;
 
 export function constructHeader(
-  tokens: string | AppleMusicApiTokens,
+  tokens: TOAuthApiTokens | TAppleMusicApiTokens,
   provider: string,
 ): HeadersInit {
   if (provider === 'appleMusic') {
-    const appleTokens = tokens as AppleMusicApiTokens;
+    const appleTokens = tokens as TAppleMusicApiTokens;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${appleTokens.developerToken}`,
@@ -18,16 +18,17 @@ export function constructHeader(
 
     return headers;
   } else {
+    const oAuthTokens = tokens as TOAuthApiTokens;
     return {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${tokens as string}`,
+      Authorization: `Bearer ${oAuthTokens.accessToken}`,
     };
   }
 }
 
 export async function handleMakeRequest(
   url: string,
-  tokens: string | AppleMusicApiTokens,
+  tokens: TOAuthApiTokens | TAppleMusicApiTokens,
   provider: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   body?: any,
