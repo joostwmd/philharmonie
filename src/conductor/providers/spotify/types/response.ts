@@ -45,7 +45,9 @@ export type TGetPlaylistByIdResponse = ISpotifyPlaylist;
 export type TGetPlaylistItemsResponse =
   ISpotifyPagingObject<ISpotifyPlaylistTrack>;
 
-export type TPlaylistSnapshotResponse = string;
+export type TPlaylistSnapshotResponse = {
+  snapshot_id: string;
+};
 
 export type TGetUsersPlaylistsResponse =
   ISpotifyPagingObject<ISpotifySimplifiedPlaylist>;
