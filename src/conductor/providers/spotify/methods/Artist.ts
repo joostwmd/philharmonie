@@ -1,5 +1,4 @@
 import type { Spotify } from '..';
-import { makeRequest } from '../../../../utils';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TGetByIdInput } from '../types/input';
 import type {
