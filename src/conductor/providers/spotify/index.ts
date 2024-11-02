@@ -4,9 +4,9 @@ import { User } from './methods/User';
 import { Track } from './methods/Track';
 import { Artist } from './methods/Artist';
 import { Search } from './methods/Search';
-import { Provider } from '../Provider';
+import { ConductorProvider } from '../Provider';
 
-export class Spotify extends Provider {
+export class Spotify extends ConductorProvider {
   public album: Album;
   public playlist: Playlist;
   public user: User;

@@ -1,12 +1,12 @@
-import type { AppleMusicApiTokens } from '../../Conductor';
-import { Provider } from '../Provider';
+import type { AppleMusicApiTokens } from '../../types';
+import { ConductorProvider } from '../Provider';
 import { Album } from './methods/Album';
 import { Playlist } from './methods/Playlist';
 import { Search } from './methods/Search';
 import { Song } from './methods/Song';
 import { User } from './methods/User';
 
-export class AppleMusic extends Provider {
+export class AppleMusic extends ConductorProvider {
   public album: Album;
   public playlist: Playlist;
   public song: Song;
