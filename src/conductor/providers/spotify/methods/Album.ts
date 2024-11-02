@@ -16,7 +16,10 @@ export class Album {
   }
 
   async getById(albumId: TGetByIdInput): Promise<TGetAlbumByIdResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
+    if (this.provider.market) {
+      url += `?market=${encodeURIComponent(this.provider.market)}`;
+    }
     return await this.provider.makeRequest(url);
   }
 
