@@ -1,14 +1,13 @@
-import { makeRequest } from '../../../../utils';
-import type { AppleMusicApiTokens } from '../../../Conductor';
+import type { AppleMusic } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
 import type { TGetMultipleAlbumsByUPCInput } from '../types/inputs';
 import type { AlbumResponse } from '../types/response';
 
 export class Album {
-  private apiKeys: AppleMusicApiTokens;
+  private provider: AppleMusic;
 
-  constructor(apiKeys: AppleMusicApiTokens) {
-    this.apiKeys = apiKeys;
+  constructor(provider: AppleMusic) {
+    this.provider = provider;
   }
 
   async getMultipleByUPC(
@@ -30,18 +29,16 @@ export class Album {
       url.searchParams.append(key, params[key]!),
     );
 
-    return makeRequest(url.toString(), this.apiKeys, 'appleMusic', 'GET');
+    return await this.provider.makeRequest(url.toString());
   }
 
   async getSavedAlbumsForUser(): Promise<AlbumResponse> {
     const url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/albums`;
-    return makeRequest(url, this.apiKeys, 'appleMusic', 'GET');
+    return await this.provider.makeRequest(url);
   }
 
   async saveAlbumsForUser(albumIds: string[]): Promise<void> {
     const url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/albums`;
-    await makeRequest(url, this.apiKeys, 'appleMusic', 'POST', {
-      ids: albumIds,
-    });
+    return await this.provider.makeRequest(url, 'POST', { ids: albumIds });
   }
 }
