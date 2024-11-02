@@ -1,4 +1,4 @@
-import type { AppleMusicApiTokens } from '../../types';
+import type { TConductorProviderConfig } from '../../types';
 import { ConductorProvider } from '../Provider';
 import { Album } from './methods/Album';
 import { Playlist } from './methods/Playlist';
@@ -13,8 +13,8 @@ export class AppleMusic extends ConductorProvider {
   public search: Search;
   public user: User;
 
-  constructor(apiTokens: AppleMusicApiTokens) {
-    super(apiTokens, 'appleMusic');
+  constructor(providerConfig: TConductorProviderConfig<'appleMusic'>) {
+    super('appleMusic', providerConfig);
 
     this.album = new Album(this);
     this.playlist = new Playlist(this);
