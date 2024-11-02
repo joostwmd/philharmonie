@@ -20,6 +20,6 @@ export class AppleMusic extends Provider {
     this.playlist = new Playlist(this);
     this.song = new Song(this);
     this.search = new Search(this);
-    this.user = new User(apiTokens);
+    this.user = new User(this);
   }
 }
