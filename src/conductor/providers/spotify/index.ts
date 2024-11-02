@@ -18,7 +18,7 @@ export class Spotify extends Provider {
     super(apiToken, 'spotify');
 
     this.album = new Album(this);
-    this.playlist = new Playlist(apiToken);
+    this.playlist = new Playlist(this);
     this.user = new User(apiToken);
     this.track = new Track(apiToken);
     this.artist = new Artist(apiToken);
