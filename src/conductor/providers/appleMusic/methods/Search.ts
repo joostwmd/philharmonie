@@ -24,7 +24,7 @@ export class Search {
     } = input;
 
     const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${storefront}/${APPLE_MUSIC_METHODS_PATHS.search}`,
+      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/${APPLE_MUSIC_METHODS_PATHS.search}`,
     );
 
     const params: Record<string, string> = {

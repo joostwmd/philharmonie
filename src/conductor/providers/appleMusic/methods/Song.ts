@@ -15,7 +15,7 @@ export class Song {
   }
 
   async getSeveralCatalogSongsByIds(ids: string[]): Promise<SongResponse> {
-    const url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${'us/'}${APPLE_MUSIC_METHODS_PATHS.songs}?ids=${ids.join(',')}`;
+    const url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/${APPLE_MUSIC_METHODS_PATHS.songs}?ids=${ids.join(',')}`;
     return await this.provider.makeRequest(url);
   }
 
@@ -25,7 +25,7 @@ export class Song {
     localization?: string,
   ): Promise<SongResponse> {
     const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}/${storefront}/songs`,
+      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}/${this.provider.market}/songs`,
     );
 
     const params: Record<string, string> = {
