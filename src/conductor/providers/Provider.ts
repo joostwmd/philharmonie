@@ -20,6 +20,8 @@ export abstract class ConductorProvider {
     this.market = providerConfig.defaultMarket;
   }
 
+  public abstract setUserMarket(): Promise<void>;
+
   public async makeRequest(
     url: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
