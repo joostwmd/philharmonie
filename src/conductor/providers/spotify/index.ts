@@ -15,6 +15,17 @@ export class Spotify extends ConductorProvider {
   public artist: Artist;
   public search: Search;
 
+  public async setUserMarket(): Promise<void> {
+    const userProfile = await this.user.getCurrentUser();
+    this.market = userProfile.country;
+  }
+
+  public injectMarketIntoUrl(url: string): string {
+    return url.includes('?')
+      ? `${url}&market=${this.market}`
+      : `${url}?market=${this.market}`;
+  }
+
   constructor(providerConfig: TConductorProviderConfig<'spotify'>) {
     super('spotify', providerConfig);
 
