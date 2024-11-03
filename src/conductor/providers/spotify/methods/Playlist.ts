@@ -28,7 +28,8 @@ export class Playlist {
   }
 
   async getById(playlistId: TGetByIdInput): Promise<TGetPlaylistByIdResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}`;
+    url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
@@ -64,7 +65,8 @@ export class Playlist {
       url.searchParams.append(key, String(params[key])),
     );
 
-    return await this.provider.makeRequest(url.toString());
+    const reqUrl = this.provider.injectMarketIntoUrl(url.toString());
+    return await this.provider.makeRequest(reqUrl);
   }
 
   async updatePlaylistItems({

@@ -37,6 +37,7 @@ export class Search {
       url.searchParams.append(key, String(params[key])),
     );
 
-    return await this.provider.makeRequest(url.toString());
+    const reqUrl = this.provider.injectMarketIntoUrl(url.toString());
+    return await this.provider.makeRequest(reqUrl);
   }
 }
