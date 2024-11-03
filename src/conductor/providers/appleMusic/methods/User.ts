@@ -9,7 +9,7 @@ export class User {
     this.provider = provider;
   }
 
-  async getStorefron(): Promise<StorefrontResponse> {
+  async getStorefront(): Promise<StorefrontResponse> {
     const url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.current_user}storefront`;
     return await this.provider.makeRequest(url);
   }
