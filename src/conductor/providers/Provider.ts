@@ -1,14 +1,26 @@
 import { handleMakeRequest } from '../../utils';
-import type { AppleMusicApiTokens } from '../types';
+import type {
+  TAppleMusicApiTokens,
+  TConductorProviderConfig,
+  TConductorProviders,
+  TOAuthApiTokens,
+} from '../types';
 
 export abstract class ConductorProvider {
-  protected tokens: string | AppleMusicApiTokens;
+  protected tokens: TOAuthApiTokens | TAppleMusicApiTokens;
   protected providerName: string;
+  public market: string;
 
-  constructor(tokens: string | AppleMusicApiTokens, providerName: string) {
-    this.tokens = tokens;
+  constructor(
+    providerName: TConductorProviders,
+    providerConfig: TConductorProviderConfig<TConductorProviders>,
+  ) {
     this.providerName = providerName;
+    this.tokens = providerConfig.tokens;
+    this.market = providerConfig.defaultMarket;
   }
+
+  public abstract setUserMarket(): Promise<void>;
 
   public async makeRequest(
     url: string,

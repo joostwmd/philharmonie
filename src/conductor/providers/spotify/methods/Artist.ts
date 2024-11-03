@@ -28,14 +28,16 @@ export class Artist {
   }
 
   async getAlbums(artistId: TGetByIdInput): Promise<TGetArtistsAlbumsResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/albums`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/albums`;
+    url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
   async getTopTracks(
     artistId: TGetByIdInput,
   ): Promise<TGetArtistsTopTracksResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/top-tracks`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/top-tracks`;
+    url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 

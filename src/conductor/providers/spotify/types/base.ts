@@ -59,7 +59,7 @@ export interface ISpotifyArtist {
 export interface ISpotifyAlbum {
   album_type: string;
   total_tracks: number;
-  available_markets: string[];
+  is_playable: boolean;
   external_urls: ISpotifyExternalUrls;
   href: string;
   id: string;
@@ -91,7 +91,6 @@ export interface ISpotifyAlbum {
 // Tracks
 export interface ISpotifyTrack {
   artists: ISpotifyArtist[];
-  available_markets: string[];
   disc_number: number;
   duration_ms: number;
   explicit: boolean;
@@ -260,7 +259,7 @@ export type ISpotifySearchResults = {
 
 // Shows
 export interface ISpotifyShow {
-  available_markets: string[];
+  is_playable: boolean;
   copyrights: Array<{
     text: string;
     type: string;
@@ -316,7 +315,7 @@ export interface ISpotifyAudiobook {
   authors: Array<{
     name: string;
   }>;
-  available_markets: string[];
+  is_playable: boolean;
   copyrights: Array<{
     text: string;
     type: string;

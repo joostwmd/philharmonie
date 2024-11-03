@@ -16,7 +16,7 @@ export class Album {
     const { storefront, upcs, localization } = input;
 
     const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}/${storefront}/albums`,
+      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}/${this.provider.market}/albums`,
     );
 
     const params: Record<string, string> = {

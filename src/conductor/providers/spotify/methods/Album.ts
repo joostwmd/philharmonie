@@ -16,24 +16,28 @@ export class Album {
   }
 
   async getById(albumId: TGetByIdInput): Promise<TGetAlbumByIdResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
+    url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
   async getSeveralById(
     albumIds: TGetByIdInput[],
   ): Promise<TGetSeveralAlbumsByIdsResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(albumIds.join(','))}`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(albumIds.join(','))}`;
+    url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
   async getTracks(albumId: TGetByIdInput): Promise<TGetAlbumTracksResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}/tracks`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}/tracks`;
+    url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
   async getUsersSavedAlbums(): Promise<TGetUsersSavedAlbumsResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
+    url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 

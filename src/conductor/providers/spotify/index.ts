@@ -5,6 +5,7 @@ import { Track } from './methods/Track';
 import { Artist } from './methods/Artist';
 import { Search } from './methods/Search';
 import { ConductorProvider } from '../Provider';
+import type { TConductorProviderConfig } from '../../types';
 
 export class Spotify extends ConductorProvider {
   public album: Album;
@@ -14,8 +15,19 @@ export class Spotify extends ConductorProvider {
   public artist: Artist;
   public search: Search;
 
-  constructor(apiToken: string) {
-    super(apiToken, 'spotify');
+  public async setUserMarket(): Promise<void> {
+    const userProfile = await this.user.getCurrentUser();
+    this.market = userProfile.country;
+  }
+
+  public injectMarketIntoUrl(url: string): string {
+    return url.includes('?')
+      ? `${url}&market=${this.market}`
+      : `${url}?market=${this.market}`;
+  }
+
+  constructor(providerConfig: TConductorProviderConfig<'spotify'>) {
+    super('spotify', providerConfig);
 
     this.album = new Album(this);
     this.playlist = new Playlist(this);
