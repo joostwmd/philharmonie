@@ -13,6 +13,11 @@ export class AppleMusic extends ConductorProvider {
   public search: Search;
   public user: User;
 
+  public async setUserMarket(): Promise<void> {
+    const userProfile = await this.user.getStorefront();
+    this.market = userProfile.data[0]!.id;
+  }
+
   constructor(providerConfig: TConductorProviderConfig<'appleMusic'>) {
     super('appleMusic', providerConfig);
 
