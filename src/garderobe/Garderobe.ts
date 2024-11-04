@@ -1,10 +1,16 @@
-import type { TGarderobeProviderConfig } from './types';
+import type { ProviderInstances, TGarderobeProviderConfig } from './types';
 import { SpotifyGarderobeProvider } from './providers/spotify';
 
-export class Garderobe {
-  public spotify: SpotifyGarderobeProvider;
+export class Garderobe<Config extends TGarderobeProviderConfig> {
+  public providers: ProviderInstances<Config>;
 
-  constructor(providersConfig: TGarderobeProviderConfig) {
-    this.spotify = new SpotifyGarderobeProvider(providersConfig.spotify);
+  constructor(providersConfig: Config) {
+    this.providers = {} as ProviderInstances<Config>;
+
+    if (providersConfig.spotify) {
+      this.providers.spotify = new SpotifyGarderobeProvider(
+        providersConfig.spotify,
+      );
+    }
   }
 }
