@@ -1,12 +1,12 @@
-import type { Spotify } from '..';
+import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TSearchInput } from '../types/input';
 import type { TSearchResponse } from '../types/response';
 
 export class Search {
-  private provider: Spotify;
+  private provider: SpotifyConductorProvider;
 
-  constructor(provider: Spotify) {
+  constructor(provider: SpotifyConductorProvider) {
     this.provider = provider;
   }
 

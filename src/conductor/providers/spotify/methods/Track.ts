@@ -1,4 +1,4 @@
-import type { Spotify } from '..';
+import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { ISpotifyTrackWithAlbum } from '../types/base';
 import type {
@@ -13,9 +13,9 @@ import type {
 } from '../types/response';
 
 export class Track {
-  private provider: Spotify;
+  private provider: SpotifyConductorProvider;
 
-  constructor(provider: Spotify) {
+  constructor(provider: SpotifyConductorProvider) {
     this.provider = provider;
   }
 
