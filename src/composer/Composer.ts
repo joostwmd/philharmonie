@@ -1,4 +1,5 @@
 import type { Conductor } from '../conductor/Conductor';
+import type { TConductorProvidersConfig } from '../conductor/types';
 import {
   handleTransferPlaylistFromSpotifyToAppleMusic,
   handleTransferUsersPlaylistsFromSpotifyToAppleMusic,
@@ -6,9 +7,9 @@ import {
 import { handleRemoveDuplicatesFromSpotifyPlaylist } from './repertoire/etudes/spotify/removeDuplicatesFromPlaylist';
 
 export class Composer {
-  private conductor: Conductor;
+  private conductor: Conductor<TConductorProvidersConfig>;
 
-  constructor(conductor: Conductor) {
+  constructor(conductor: Conductor<TConductorProvidersConfig>) {
     this.conductor = conductor;
   }
 
