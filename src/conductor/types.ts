@@ -4,6 +4,8 @@ import type { AppleMusicConductorProvider } from './providers/appleMusic';
 
 export type TConductorProvider = 'spotify' | 'appleMusic';
 
+export type TConductorProviders = TConductorProvider;
+
 export type TOAuthApiTokens = {
   accessToken: string;
 };
