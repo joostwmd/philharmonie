@@ -1,3 +1,5 @@
+import type { SpotifyGarderobeProvider } from './providers/spotify';
+
 export type TGarderobeProviders = 'spotify' | 'tidal' | 'amazon';
 
 export type TGarderobeProviderCredentials = {
@@ -5,12 +7,16 @@ export type TGarderobeProviderCredentials = {
   clientSecret: string;
 };
 
-export type TGarderobeProviderConfig = {
-  [key in TGarderobeProviders]: TGarderobeProviderCredentials;
-};
+export type TGarderobeProviderConfig = Partial<
+  Record<TGarderobeProviders, TGarderobeProviderCredentials>
+>;
 
 export type TSession = {
   accessToken: string;
   refreshToken?: string;
   expiresIn: number;
+};
+
+export type ProviderInstances<Config extends TGarderobeProviderConfig> = {
+  [K in keyof Config]: K extends 'spotify' ? SpotifyGarderobeProvider : unknown;
 };
