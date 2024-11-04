@@ -7,7 +7,7 @@ import { Search } from './methods/Search';
 import { ConductorProvider } from '../Provider';
 import type { TConductorProviderConfig } from '../../types';
 
-export class Spotify extends ConductorProvider {
+export class SpotifyConductorProvider extends ConductorProvider {
   public album: Album;
   public playlist: Playlist;
   public user: User;

@@ -6,7 +6,7 @@ import { Search } from './methods/Search';
 import { Song } from './methods/Song';
 import { User } from './methods/User';
 
-export class AppleMusic extends ConductorProvider {
+export class AppleMusicConductorProvider extends ConductorProvider {
   public album: Album;
   public playlist: Playlist;
   public song: Song;

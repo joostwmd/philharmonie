@@ -1,6 +1,6 @@
 import type { Conductor } from './Conductor';
-import type { Spotify } from './providers/spotify';
-import type { AppleMusic } from './providers/appleMusic';
+import type { SpotifyConductorProvider } from './providers/spotify';
+import type { AppleMusicConductorProvider } from './providers/appleMusic';
 
 export type TConductorProvider = 'spotify' | 'appleMusic';
 
@@ -33,9 +33,9 @@ export type TConductorProviderInstances<
   Config extends TConductorProvidersConfig,
 > = {
   [K in keyof Config]: K extends 'spotify'
-    ? Spotify
+    ? SpotifyConductorProvider
     : K extends 'appleMusic'
-      ? AppleMusic
+      ? AppleMusicConductorProvider
       : never;
 };
 

@@ -1,17 +1,17 @@
-import { Spotify } from './providers/spotify';
-import { AppleMusic } from './providers/appleMusic';
+import { SpotifyConductorProvider } from './providers/spotify';
+import { AppleMusicConductorProvider } from './providers/appleMusic';
 import type { TConductorInstance, TConductorProvidersConfig } from './types';
 
 export class Conductor<Config extends TConductorProvidersConfig> {
-  public spotify?: Spotify;
-  public appleMusic?: AppleMusic;
+  public spotify?: SpotifyConductorProvider;
+  public appleMusic?: AppleMusicConductorProvider;
 
   constructor(config: Config) {
     if (config.spotify) {
-      this.spotify = new Spotify(config.spotify);
+      this.spotify = new SpotifyConductorProvider(config.spotify);
     }
     if (config.appleMusic) {
-      this.appleMusic = new AppleMusic(config.appleMusic);
+      this.appleMusic = new AppleMusicConductorProvider(config.appleMusic);
     }
   }
 }
