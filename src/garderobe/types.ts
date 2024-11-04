@@ -3,13 +3,15 @@ import type { SpotifyGarderobeProvider } from './providers/spotify';
 
 export type TGarderobeProvider = 'spotify';
 
+export type TGarderobeProviders = TGarderobeProvider;
+
 export type TGarderobeProviderCredentials = {
   clientId: string;
   clientSecret: string;
 };
 
 export type TGarderobeProviderConfig = Partial<
-  Record<TGarderobeProvider, TGarderobeProviderCredentials>
+  Record<TGarderobeProviders, TGarderobeProviderCredentials>
 >;
 
 export type TGarderobeProviderInstances<
