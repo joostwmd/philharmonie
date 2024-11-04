@@ -1,11 +1,11 @@
-import type { TSession } from '../../../types';
+import type { TGarderobeSession } from '../../../types';
 
 export async function refreshSession(
   tokenUrl: string,
   clientId: string,
   clientSecret: string,
   refreshToken: string,
-): Promise<TSession> {
+): Promise<TGarderobeSession> {
   const headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
     Authorization:
