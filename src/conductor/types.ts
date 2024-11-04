@@ -1,8 +1,8 @@
 import type { Conductor } from './Conductor';
-import type { AppleMusic } from './providers/appleMusic';
 import type { Spotify } from './providers/spotify';
+import type { AppleMusic } from './providers/appleMusic';
 
-export type TConductorProviders = 'spotify' | 'appleMusic';
+export type TConductorProvider = 'spotify' | 'appleMusic';
 
 export type TOAuthApiTokens = {
   accessToken: string;
@@ -13,7 +13,7 @@ export type TAppleMusicApiTokens = {
   userToken?: string;
 };
 
-export type TConductorProviderConfig<T extends TConductorProviders> =
+export type TConductorProviderConfig<T extends TConductorProvider> =
   T extends 'appleMusic'
     ? {
         tokens: TAppleMusicApiTokens;
@@ -39,5 +39,5 @@ export type TConductorProviderInstances<
       : never;
 };
 
-export type TConductor<Config extends TConductorProvidersConfig> =
+export type TConductorInstance<Config extends TConductorProvidersConfig> =
   Conductor<Config> & TConductorProviderInstances<Config>;

@@ -1,4 +1,4 @@
-import type { TGarderobe, TGarderobeProviderConfig } from './types';
+import type { TGarderobeInstance, TGarderobeProviderConfig } from './types';
 import { SpotifyGarderobeProvider } from './providers/spotify';
 
 export class Garderobe<Config extends TGarderobeProviderConfig> {
@@ -13,7 +13,9 @@ export class Garderobe<Config extends TGarderobeProviderConfig> {
 
 export function createGarderobe<Config extends TGarderobeProviderConfig>(
   providersConfig: Config,
-): TGarderobe<Config> {
-  const garderobe = new Garderobe(providersConfig) as TGarderobe<Config>;
+): TGarderobeInstance<Config> {
+  const garderobe = new Garderobe(
+    providersConfig,
+  ) as TGarderobeInstance<Config>;
   return garderobe;
 }

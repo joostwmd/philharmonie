@@ -1,6 +1,6 @@
 import { Spotify } from './providers/spotify';
 import { AppleMusic } from './providers/appleMusic';
-import type { TConductor, TConductorProvidersConfig } from './types';
+import type { TConductorInstance, TConductorProvidersConfig } from './types';
 
 export class Conductor<Config extends TConductorProvidersConfig> {
   public spotify?: Spotify;
@@ -18,7 +18,7 @@ export class Conductor<Config extends TConductorProvidersConfig> {
 
 export function createConductor<Config extends TConductorProvidersConfig>(
   config: Config,
-): TConductor<Config> {
-  const conductor = new Conductor(config) as TConductor<Config>;
+): TConductorInstance<Config> {
+  const conductor = new Conductor(config) as TConductorInstance<Config>;
   return conductor;
 }

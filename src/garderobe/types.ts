@@ -1,7 +1,7 @@
 import type { Garderobe } from './Garderobe';
 import type { SpotifyGarderobeProvider } from './providers/spotify';
 
-export type TGarderobeProviders = 'spotify';
+export type TGarderobeProvider = 'spotify';
 
 export type TGarderobeProviderCredentials = {
   clientId: string;
@@ -9,17 +9,19 @@ export type TGarderobeProviderCredentials = {
 };
 
 export type TGarderobeProviderConfig = Partial<
-  Record<TGarderobeProviders, TGarderobeProviderCredentials>
+  Record<TGarderobeProvider, TGarderobeProviderCredentials>
 >;
 
-export type TProviderInstances<Config extends TGarderobeProviderConfig> = {
+export type TGarderobeProviderInstances<
+  Config extends TGarderobeProviderConfig,
+> = {
   [K in keyof Config]: K extends 'spotify' ? SpotifyGarderobeProvider : never;
 };
 
-export type TGarderobe<Config extends TGarderobeProviderConfig> =
-  Garderobe<Config> & TProviderInstances<Config>;
+export type TGarderobeInstance<Config extends TGarderobeProviderConfig> =
+  Garderobe<Config> & TGarderobeProviderInstances<Config>;
 
-export type TSession = {
+export type TGarderobeSession = {
   accessToken: string;
   refreshToken?: string;
   expiresIn: number;
