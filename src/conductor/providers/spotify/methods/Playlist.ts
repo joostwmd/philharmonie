@@ -1,4 +1,4 @@
-import type { Spotify } from '..';
+import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type {
   TGetByIdInput,
@@ -21,9 +21,9 @@ import type {
 } from '../types/response';
 
 export class Playlist {
-  private provider: Spotify;
+  private provider: SpotifyConductorProvider;
 
-  constructor(provider: Spotify) {
+  constructor(provider: SpotifyConductorProvider) {
     this.provider = provider;
   }
 
@@ -41,15 +41,13 @@ export class Playlist {
 
   async getItems({
     playlistId,
-    tokens,
-    market,
     fields,
     limit = 20,
     offset = 0,
     additional_types,
   }: TGetPlaylistItemsInput): Promise<TGetPlaylistItemsResponse> {
     const url = new URL(
-      `${SPOTIFY_API_BASE_URL}/${playlistId}/${SPOTIFY_METHODS_PATHS.tracks}`,
+      `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/${SPOTIFY_METHODS_PATHS.tracks}`,
     );
 
     const params: Record<string, string | number> = {
@@ -57,7 +55,6 @@ export class Playlist {
       offset,
     };
 
-    if (market) params.market = market;
     if (fields) params.fields = fields;
     if (additional_types) params.additional_types = additional_types;
 
@@ -76,16 +73,18 @@ export class Playlist {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = {};
 
-    if (options.uris) {
-      body.uris = options.uris;
-    } else {
-      if (options.range_start !== undefined)
-        body.range_start = options.range_start;
-      if (options.insert_before !== undefined)
-        body.insert_before = options.insert_before;
-      if (options.range_length !== undefined)
-        body.range_length = options.range_length;
-      if (options.snapshot_id) body.snapshot_id = options.snapshot_id;
+    if (options) {
+      if (options.uris) {
+        body.uris = options.uris;
+      } else {
+        if (options.range_start !== undefined)
+          body.range_start = options.range_start;
+        if (options.insert_before !== undefined)
+          body.insert_before = options.insert_before;
+        if (options.range_length !== undefined)
+          body.range_length = options.range_length;
+        if (options.snapshot_id) body.snapshot_id = options.snapshot_id;
+      }
     }
 
     return await this.provider.makeRequest(url, 'PUT', body);

@@ -1,4 +1,4 @@
-import type { AppleMusic } from '..';
+import type { AppleMusicConductorProvider } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
 import type {
   TAddTracksToPlaylistInput,
@@ -7,9 +7,9 @@ import type {
 import type { PlaylistResponse, SongResponse } from '../types/response';
 
 export class Playlist {
-  private provider: AppleMusic;
+  private provider: AppleMusicConductorProvider;
 
-  constructor(provider: AppleMusic) {
+  constructor(provider: AppleMusicConductorProvider) {
     this.provider = provider;
   }
 
@@ -28,7 +28,7 @@ export class Playlist {
 
   async create(input: TCreatePlaylistInput): Promise<PlaylistResponse> {
     const { name, description, localization } = input;
-    const url = new URL(`${APPLE_MUSIC_BASE_URL}/v1/me/library/playlists`);
+    const url = new URL(`${APPLE_MUSIC_BASE_URL}me/library/playlists`);
 
     if (localization) {
       url.searchParams.append('l', localization);
@@ -47,7 +47,7 @@ export class Playlist {
   async addTracksToPlaylist(input: TAddTracksToPlaylistInput): Promise<void> {
     const { playlistId, trackIds, localization } = input;
     const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}/v1/me/library/playlists/${playlistId}/tracks`,
+      `${APPLE_MUSIC_BASE_URL}me/library/playlists/${playlistId}/tracks`,
     );
 
     if (localization) {

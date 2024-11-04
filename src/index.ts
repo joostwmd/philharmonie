@@ -1,4 +1,5 @@
-import { Garderobe } from './garderobe/Garderobe';
-import { Conductor } from './conductor/Conductor';
+import { createGarderobe } from './garderobe/Garderobe';
+import { createConductor } from './conductor/Conductor';
+import { Composer } from './composer/Composer';
 
-export { Garderobe, Conductor };
+export { createConductor, Composer, createGarderobe };

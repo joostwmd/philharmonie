@@ -1,12 +1,12 @@
-import type { AppleMusic } from '..';
+import type { AppleMusicConductorProvider } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
 import type { TGetMultipleAlbumsByUPCInput } from '../types/inputs';
 import type { AlbumResponse } from '../types/response';
 
 export class Album {
-  private provider: AppleMusic;
+  private provider: AppleMusicConductorProvider;
 
-  constructor(provider: AppleMusic) {
+  constructor(provider: AppleMusicConductorProvider) {
     this.provider = provider;
   }
 

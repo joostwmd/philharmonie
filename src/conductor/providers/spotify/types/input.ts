@@ -7,7 +7,6 @@ export type TChangePlaylistDetailsInput = {
 
 export type TGetPlaylistItemsInput = {
   playlistId: string;
-  tokens: string;
   market?: string;
   fields?: string;
   limit?: number;
@@ -17,7 +16,7 @@ export type TGetPlaylistItemsInput = {
 
 export type TUpdatePlaylistItemsInput = {
   playlistId: string;
-  options: {
+  options?: {
     uris?: string[];
     range_start?: number;
     insert_before?: number;
