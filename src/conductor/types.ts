@@ -1,3 +1,7 @@
+import type { Conductor } from './Conductor';
+import type { AppleMusic } from './providers/appleMusic';
+import type { Spotify } from './providers/spotify';
+
 export type TConductorProviders = 'spotify' | 'appleMusic';
 
 export type TOAuthApiTokens = {
@@ -20,6 +24,20 @@ export type TConductorProviderConfig<T extends TConductorProviders> =
         defaultMarket: string;
       };
 
-export type TConductorConfig = {
-  [key in TConductorProviders]: TConductorProviderConfig<key>;
+export type TConductorProvidersConfig = Partial<{
+  spotify: TConductorProviderConfig<'spotify'>;
+  appleMusic: TConductorProviderConfig<'appleMusic'>;
+}>;
+
+export type TConductorProviderInstances<
+  Config extends TConductorProvidersConfig,
+> = {
+  [K in keyof Config]: K extends 'spotify'
+    ? Spotify
+    : K extends 'appleMusic'
+      ? AppleMusic
+      : never;
 };
+
+export type TConductor<Config extends TConductorProvidersConfig> =
+  Conductor<Config> & TConductorProviderInstances<Config>;
