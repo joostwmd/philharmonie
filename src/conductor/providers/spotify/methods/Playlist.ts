@@ -73,16 +73,18 @@ export class Playlist {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = {};
 
-    if (options.uris) {
-      body.uris = options.uris;
-    } else {
-      if (options.range_start !== undefined)
-        body.range_start = options.range_start;
-      if (options.insert_before !== undefined)
-        body.insert_before = options.insert_before;
-      if (options.range_length !== undefined)
-        body.range_length = options.range_length;
-      if (options.snapshot_id) body.snapshot_id = options.snapshot_id;
+    if (options) {
+      if (options.uris) {
+        body.uris = options.uris;
+      } else {
+        if (options.range_start !== undefined)
+          body.range_start = options.range_start;
+        if (options.insert_before !== undefined)
+          body.insert_before = options.insert_before;
+        if (options.range_length !== undefined)
+          body.range_length = options.range_length;
+        if (options.snapshot_id) body.snapshot_id = options.snapshot_id;
+      }
     }
 
     return await this.provider.makeRequest(url, 'PUT', body);
