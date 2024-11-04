@@ -6,7 +6,7 @@ export class Conductor {
   public spotify: Spotify;
   public appleMusic: AppleMusic;
 
-  constructor(config: TConductorConfig) {
+  constructor(config: TConductorConfig, fetch: any) {
     this.spotify = new Spotify(config.spotify);
     this.appleMusic = new AppleMusic(config.appleMusic);
   }

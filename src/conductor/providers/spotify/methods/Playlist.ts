@@ -41,15 +41,13 @@ export class Playlist {
 
   async getItems({
     playlistId,
-    tokens,
-    market,
     fields,
     limit = 20,
     offset = 0,
     additional_types,
   }: TGetPlaylistItemsInput): Promise<TGetPlaylistItemsResponse> {
     const url = new URL(
-      `${SPOTIFY_API_BASE_URL}/${playlistId}/${SPOTIFY_METHODS_PATHS.tracks}`,
+      `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/${SPOTIFY_METHODS_PATHS.tracks}`,
     );
 
     const params: Record<string, string | number> = {
@@ -57,7 +55,6 @@ export class Playlist {
       offset,
     };
 
-    if (market) params.market = market;
     if (fields) params.fields = fields;
     if (additional_types) params.additional_types = additional_types;
 

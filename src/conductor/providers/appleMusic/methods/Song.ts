@@ -20,7 +20,6 @@ export class Song {
   }
 
   async getMultipleByISRC(
-    storefront: string,
     isrcs: string[],
     localization?: string,
   ): Promise<SongResponse> {

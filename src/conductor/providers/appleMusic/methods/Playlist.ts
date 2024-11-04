@@ -28,7 +28,7 @@ export class Playlist {
 
   async create(input: TCreatePlaylistInput): Promise<PlaylistResponse> {
     const { name, description, localization } = input;
-    const url = new URL(`${APPLE_MUSIC_BASE_URL}/v1/me/library/playlists`);
+    const url = new URL(`${APPLE_MUSIC_BASE_URL}me/library/playlists`);
 
     if (localization) {
       url.searchParams.append('l', localization);
@@ -47,7 +47,7 @@ export class Playlist {
   async addTracksToPlaylist(input: TAddTracksToPlaylistInput): Promise<void> {
     const { playlistId, trackIds, localization } = input;
     const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}/v1/me/library/playlists/${playlistId}/tracks`,
+      `${APPLE_MUSIC_BASE_URL}me/library/playlists/${playlistId}/tracks`,
     );
 
     if (localization) {

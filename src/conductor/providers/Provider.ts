@@ -7,8 +7,8 @@ import type {
 } from '../types';
 
 export abstract class ConductorProvider {
-  protected tokens: TOAuthApiTokens | TAppleMusicApiTokens;
-  protected providerName: string;
+  private tokens: TOAuthApiTokens | TAppleMusicApiTokens;
+  private providerName: string;
   public market: string;
 
   constructor(

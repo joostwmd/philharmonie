@@ -58,12 +58,24 @@ export async function handleMakeRequest(
   }
 }
 
-export interface ProviderError {
+export interface ProviderError extends Error {
   failed: true;
   url: string;
   provider: string;
   statusCode: number;
   message: string;
+}
+
+export class OperaError extends Error {
+  constructor(
+    public readonly failed: boolean,
+    public readonly url: string,
+    public readonly provider: string,
+    public readonly statusCode: number,
+    public readonly providerMessage: string,
+  ) {
+    super();
+  }
 }
 
 export function handleProviderError(
@@ -82,11 +94,5 @@ export function handleProviderError(
     message = error.statusText || 'Unknown Error';
   }
 
-  return {
-    failed: true,
-    url,
-    provider,
-    statusCode,
-    message,
-  };
+  throw new OperaError(true, url, provider, statusCode, message);
 }
