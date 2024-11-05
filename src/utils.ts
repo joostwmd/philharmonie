@@ -32,17 +32,12 @@ export async function handleMakeRequest(
   provider: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   body?: any,
-): Promise<any | ProviderError> {
+  fetchFunction: typeof fetch = fetch,
+): Promise<any | OperaError> {
   try {
-    console.log(
-      `Making ${method} request to ${provider}. The endpoint is ${url}`,
-    );
-
     const headers = constructHeader(tokens, provider);
 
-    console.log('headers', headers);
-
-    const response = await fetch(url, {
+    const response = await fetchFunction(url, {
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,
@@ -56,14 +51,6 @@ export async function handleMakeRequest(
   } catch (error) {
     return handleProviderError(error, url, provider);
   }
-}
-
-export interface ProviderError extends Error {
-  failed: true;
-  url: string;
-  provider: string;
-  statusCode: number;
-  message: string;
 }
 
 export class OperaError extends Error {
@@ -82,7 +69,7 @@ export function handleProviderError(
   error: any,
   url: string,
   provider: string,
-): ProviderError {
+): OperaError {
   let statusCode;
   let message;
 
