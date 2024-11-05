@@ -12,13 +12,8 @@ import type {
   TCreatePlaylistInput,
   TAddCoverImageInput,
 } from '../types/input';
-import type {
-  TCreatePlaylistRetrun,
-  TGetPlaylistByIdResponse,
-  TGetPlaylistItemsResponse,
-  TGetUsersPlaylistsResponse,
-  TPlaylistSnapshotResponse,
-} from '../types/response';
+
+import type { SpotifyApi } from '../types/typed';
 
 export class Playlist {
   private provider: SpotifyConductorProvider;
@@ -27,7 +22,9 @@ export class Playlist {
     this.provider = provider;
   }
 
-  async getById(playlistId: TGetByIdInput): Promise<TGetPlaylistByIdResponse> {
+  async getById(
+    playlistId: TGetByIdInput,
+  ): Promise<SpotifyApi.SinglePlaylistResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
@@ -45,7 +42,7 @@ export class Playlist {
     limit = 20,
     offset = 0,
     additional_types,
-  }: TGetPlaylistItemsInput): Promise<TGetPlaylistItemsResponse> {
+  }: TGetPlaylistItemsInput): Promise<SpotifyApi.PlaylistSnapshotResponse> {
     const url = new URL(
       `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/${SPOTIFY_METHODS_PATHS.tracks}`,
     );
@@ -69,7 +66,7 @@ export class Playlist {
   async updatePlaylistItems({
     playlistId,
     options,
-  }: TUpdatePlaylistItemsInput): Promise<TPlaylistSnapshotResponse> {
+  }: TUpdatePlaylistItemsInput): Promise<SpotifyApi.PlaylistSnapshotResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = {};
 
@@ -94,7 +91,7 @@ export class Playlist {
     playlistId,
     uris,
     position,
-  }: TAddItemsToPlaylistInput): Promise<TPlaylistSnapshotResponse> {
+  }: TAddItemsToPlaylistInput): Promise<SpotifyApi.PlaylistSnapshotResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = { uris };
 
@@ -109,7 +106,7 @@ export class Playlist {
     playlistId,
     tracks,
     snapshot_id,
-  }: TRemoveItemsFromPlaylistInput): Promise<TPlaylistSnapshotResponse> {
+  }: TRemoveItemsFromPlaylistInput): Promise<SpotifyApi.PlaylistSnapshotResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/tracks`;
     const body: Record<string, any> = { tracks };
 
@@ -123,7 +120,7 @@ export class Playlist {
   async getCurrentUserPlaylists({
     limit = 20,
     offset = 0,
-  }: TGetCurrentUserPlaylistsInput): Promise<TGetUsersPlaylistsResponse> {
+  }: TGetCurrentUserPlaylistsInput): Promise<SpotifyApi.ListOfCurrentUsersPlaylistsResponse> {
     const url = new URL(
       `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.playlists}`,
     );
@@ -144,7 +141,7 @@ export class Playlist {
     userId,
     limit = 20,
     offset = 0,
-  }: TGetUserPlaylistsInput): Promise<TGetUsersPlaylistsResponse> {
+  }: TGetUserPlaylistsInput): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
     const url = new URL(
       `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.users}${userId}${SPOTIFY_METHODS_PATHS.playlists}`,
     );
@@ -165,7 +162,7 @@ export class Playlist {
     userId,
     name,
     options,
-  }: TCreatePlaylistInput): Promise<TCreatePlaylistRetrun> {
+  }: TCreatePlaylistInput): Promise<SpotifyApi.CreatePlaylistResponse> {
     const url = `${SPOTIFY_API_BASE_URL}/users/${userId}/playlists`;
     const body: Record<string, any> = { name };
 

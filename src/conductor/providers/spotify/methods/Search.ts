@@ -1,7 +1,7 @@
 import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TSearchInput } from '../types/input';
-import type { TSearchResponse } from '../types/response';
+import type { SpotifyApi } from '../types/typed';
 
 export class Search {
   private provider: SpotifyConductorProvider;
@@ -10,7 +10,7 @@ export class Search {
     this.provider = provider;
   }
 
-  async forItem(input: TSearchInput): Promise<TSearchResponse> {
+  async forItem(input: TSearchInput): Promise<SpotifyApi.SearchResponse> {
     const {
       query,
       type,

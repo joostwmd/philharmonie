@@ -1,12 +1,7 @@
 import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TGetByIdInput } from '../types/input';
-import type {
-  TGetAlbumByIdResponse,
-  TGetAlbumTracksResponse,
-  TGetSeveralAlbumsByIdsResponse,
-  TGetUsersSavedAlbumsResponse,
-} from '../types/response';
+import type { SpotifyApi } from '../types/typed';
 
 export class Album {
   private provider: SpotifyConductorProvider;
@@ -15,7 +10,9 @@ export class Album {
     this.provider = provider;
   }
 
-  async getById(albumId: TGetByIdInput): Promise<TGetAlbumByIdResponse> {
+  async getById(
+    albumId: TGetByIdInput,
+  ): Promise<SpotifyApi.SingleAlbumResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
@@ -23,19 +20,21 @@ export class Album {
 
   async getSeveralById(
     albumIds: TGetByIdInput[],
-  ): Promise<TGetSeveralAlbumsByIdsResponse> {
+  ): Promise<SpotifyApi.MultipleAlbumsResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(albumIds.join(','))}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
-  async getTracks(albumId: TGetByIdInput): Promise<TGetAlbumTracksResponse> {
+  async getTracks(
+    albumId: TGetByIdInput,
+  ): Promise<SpotifyApi.AlbumTracksResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}/tracks`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
-  async getUsersSavedAlbums(): Promise<TGetUsersSavedAlbumsResponse> {
+  async getUsersSavedAlbums(): Promise<SpotifyApi.UsersSavedAlbumsResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);

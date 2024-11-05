@@ -1,12 +1,7 @@
 import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TGetByIdInput, TFollowInput } from '../types/input';
-import type {
-  TGetUsersByIdResponse,
-  TGetCurrentUserResponse,
-  TGetUsersTopItemsResponse,
-  TGetFollowedArtistsResponse,
-} from '../types/response';
+import type { SpotifyApi } from '../types/typed';
 
 export class User {
   private provider: SpotifyConductorProvider;
@@ -15,19 +10,23 @@ export class User {
     this.provider = provider;
   }
 
-  async getUserById(userId: TGetByIdInput): Promise<TGetUsersByIdResponse> {
+  async getUserById(
+    userId: TGetByIdInput,
+  ): Promise<SpotifyApi.UserProfileResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.users}${userId}`;
     return await this.provider.makeRequest(url);
   }
 
-  async getCurrentUser(): Promise<TGetCurrentUserResponse> {
+  async getCurrentUser(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}`;
     return await this.provider.makeRequest(url);
   }
 
   async getCurrentUserTopItems(
     type: 'artists' | 'tracks',
-  ): Promise<TGetUsersTopItemsResponse> {
+  ): Promise<
+    SpotifyApi.UsersTopArtistsResponse | SpotifyApi.UsersTopTracksResponse
+  > {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}top/${type}`;
     return await this.provider.makeRequest(url);
   }
@@ -42,7 +41,7 @@ export class User {
     return await this.provider.makeRequest(url, 'DELETE');
   }
 
-  async getFollowedArtists(): Promise<TGetFollowedArtistsResponse> {
+  async getFollowedArtists(): Promise<SpotifyApi.UsersFollowedArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following?type=artist`;
     return await this.provider.makeRequest(url);
   }
@@ -60,12 +59,14 @@ export class User {
   async checkIfFollowsArtistsOrUsers({
     type,
     ids,
-  }: TFollowInput): Promise<boolean> {
+  }: TFollowInput): Promise<SpotifyApi.UserFollowsUsersOrArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following/contains?type=${type}&ids=${encodeURIComponent(ids.join(','))}`;
     return await this.provider.makeRequest(url);
   }
 
-  async checkIfFollowsPlaylist(playlistId: TGetByIdInput): Promise<[boolean]> {
+  async checkIfFollowsPlaylist(
+    playlistId: TGetByIdInput,
+  ): Promise<SpotifyApi.UsersFollowPlaylistResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/followers/contains`;
     return await this.provider.makeRequest(url);
   }

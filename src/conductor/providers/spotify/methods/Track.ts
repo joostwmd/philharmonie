@@ -1,16 +1,10 @@
 import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
-import type { ISpotifyTrackWithAlbum } from '../types/base';
 import type {
   TGetByIdInput,
   TSpotifyRecommendationOptions,
 } from '../types/input';
-import type {
-  TGetAudioFeaturesByIdResponse,
-  TGetSeveralAudioFeaturesByIdsResponse,
-  TGetSeveralTracksByIdsResponse,
-  TGetUsersSavedTracksResponse,
-} from '../types/response';
+import type { SpotifyApi } from '../types/typed';
 
 export class Track {
   private provider: SpotifyConductorProvider;
@@ -19,7 +13,9 @@ export class Track {
     this.provider = provider;
   }
 
-  async getById(trackId: TGetByIdInput): Promise<ISpotifyTrackWithAlbum> {
+  async getById(
+    trackId: TGetByIdInput,
+  ): Promise<SpotifyApi.SingleTrackResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.tracks}${trackId}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
@@ -27,13 +23,13 @@ export class Track {
 
   async getSeveralById(
     trackIds: TGetByIdInput[],
-  ): Promise<TGetSeveralTracksByIdsResponse> {
+  ): Promise<SpotifyApi.MultipleTracksResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.tracks}?ids=${encodeURIComponent(trackIds.join(','))}`;
     url = this.provider.injectMarketIntoUrl(url);
     return this.provider.makeRequest(url);
   }
 
-  async getUsersSavedTracks(): Promise<TGetUsersSavedTracksResponse> {
+  async getUsersSavedTracks(): Promise<SpotifyApi.UsersSavedTracksResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.tracks}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
@@ -49,28 +45,30 @@ export class Track {
     return this.provider.makeRequest(url, 'DELETE', { ids: trackIds });
   }
 
-  async checkUsersSavedTracks(trackIds: TGetByIdInput[]): Promise<boolean[]> {
+  async checkUsersSavedTracks(
+    trackIds: TGetByIdInput[],
+  ): Promise<SpotifyApi.CheckUserSavedAlbumsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.tracks}contains`;
     return await this.provider.makeRequest(url, 'GET', { ids: trackIds });
   }
 
   async getAudioFeaturesById(
     trackId: TGetByIdInput,
-  ): Promise<TGetAudioFeaturesByIdResponse> {
+  ): Promise<SpotifyApi.AudioFeaturesResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.audio_features}${trackId}`;
     return await this.provider.makeRequest(url);
   }
 
   async getSeveralAudioFeaturesById(
     trackIds: TGetByIdInput[],
-  ): Promise<string[]> {
+  ): Promise<SpotifyApi.MultipleAudioFeaturesResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.audio_features}?ids=${encodeURIComponent(trackIds.join(','))}`;
     return await this.provider.makeRequest(url);
   }
 
   async getRecommendations(
     options: TSpotifyRecommendationOptions,
-  ): Promise<TGetSeveralAudioFeaturesByIdsResponse> {
+  ): Promise<SpotifyApi.RecommendationsFromSeedsResponse> {
     const params = new URLSearchParams(options as any).toString();
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.recommendations}?${params}`;
     url = this.provider.injectMarketIntoUrl(url);

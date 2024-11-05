@@ -1,13 +1,7 @@
 import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
 import type { TGetByIdInput } from '../types/input';
-import type {
-  TGetArtistByIdResponse,
-  TGetArtistsAlbumsResponse,
-  TGetArtistsRelatedArtistsResponse,
-  TGetArtistsTopTracksResponse,
-  TGetSeveralArtistsByIdsResponse,
-} from '../types/response';
+import type { SpotifyApi } from '../types/typed';
 
 export class Artist {
   private provider: SpotifyConductorProvider;
@@ -15,19 +9,21 @@ export class Artist {
   constructor(provider: SpotifyConductorProvider) {
     this.provider = provider;
   }
-  async getById(artistId: TGetByIdInput): Promise<TGetArtistByIdResponse> {
+  async getById(artistId: string): Promise<SpotifyApi.SingleArtistResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}`;
     return await this.provider.makeRequest(url);
   }
 
   async getSeveralById(
     artistIds: TGetByIdInput[],
-  ): Promise<TGetSeveralArtistsByIdsResponse> {
+  ): Promise<SpotifyApi.MultipleArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(artistIds.join(','))}`;
     return await this.provider.makeRequest(url);
   }
 
-  async getAlbums(artistId: TGetByIdInput): Promise<TGetArtistsAlbumsResponse> {
+  async getAlbums(
+    artistId: TGetByIdInput,
+  ): Promise<SpotifyApi.ArtistsAlbumsResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/albums`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
@@ -35,7 +31,7 @@ export class Artist {
 
   async getTopTracks(
     artistId: TGetByIdInput,
-  ): Promise<TGetArtistsTopTracksResponse> {
+  ): Promise<SpotifyApi.ArtistsTopTracksResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/top-tracks`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
@@ -43,7 +39,7 @@ export class Artist {
 
   async getRelatedArtists(
     artistId: TGetByIdInput,
-  ): Promise<TGetArtistsRelatedArtistsResponse> {
+  ): Promise<SpotifyApi.ArtistsRelatedArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/related-artists`;
     return await this.provider.makeRequest(url);
   }
