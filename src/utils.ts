@@ -44,12 +44,15 @@ export async function handleMakeRequest(
     });
 
     if (!response.ok) {
-      return handleProviderError(response, url, provider);
+      throw handleProviderError(response, url, provider);
     }
 
     return await response.json();
   } catch (error) {
-    return handleProviderError(error, url, provider);
+    if (error instanceof OperaError) {
+      throw error;
+    }
+    throw handleProviderError(error, url, provider);
   }
 }
 
@@ -79,7 +82,12 @@ export function handleProviderError(
   } else if (error.status) {
     statusCode = error.status;
     message = error.statusText || 'Unknown Error';
+  } else {
+    statusCode = 500;
+    message = error.message || 'Unknown Error';
   }
 
-  throw new OperaError(true, url, provider, statusCode, message);
+  const operaError = new OperaError(true, url, provider, statusCode, message);
+  console.error(operaError);
+  return operaError;
 }
