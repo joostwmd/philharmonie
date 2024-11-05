@@ -26,8 +26,11 @@ export class SpotifyConductorProvider extends ConductorProvider {
       : `${url}?market=${this.market}`;
   }
 
-  constructor(providerConfig: TConductorProviderConfig<'spotify'>) {
-    super('spotify', providerConfig);
+  constructor(
+    providerConfig: TConductorProviderConfig<'spotify'>,
+    fetchFunction?: typeof fetch,
+  ) {
+    super('spotify', providerConfig, fetchFunction);
 
     this.album = new Album(this);
     this.playlist = new Playlist(this);
