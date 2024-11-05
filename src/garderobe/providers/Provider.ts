@@ -6,10 +6,15 @@ import type {
 export abstract class GarderobeProvider {
   protected clientId: string;
   protected clientSecret: string;
+  private fetch: typeof fetch;
 
-  constructor(providerCredentials: TGarderobeProviderCredentials) {
+  constructor(
+    providerCredentials: TGarderobeProviderCredentials,
+    fetchFunction: typeof fetch,
+  ) {
     this.clientId = providerCredentials.clientId;
     this.clientSecret = providerCredentials.clientSecret;
+    this.fetch = fetchFunction;
   }
 
   abstract refreshSession(refreshToken: string): Promise<TGarderobeSession>;
