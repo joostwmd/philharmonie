@@ -11,14 +11,7 @@ export class Search {
   }
 
   async forItem(input: TSearchInput): Promise<SpotifyApi.SearchResponse> {
-    const {
-      query,
-      type,
-      market,
-      limit = 20,
-      offset = 0,
-      include_external,
-    } = input;
+    const { query, type, limit = 20, offset = 0, include_external } = input;
     const url = new URL(
       `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.search}`,
     );
@@ -30,7 +23,6 @@ export class Search {
       offset,
     };
 
-    if (market) params.market = market;
     if (include_external) params.include_external = include_external;
 
     Object.keys(params).forEach((key) =>
