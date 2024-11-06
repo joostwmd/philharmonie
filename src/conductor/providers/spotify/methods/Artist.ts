@@ -15,22 +15,20 @@ export class Artist {
   }
 
   async getSeveralById(
-    artistIds: TGetByIdInput[],
+    artistIds: string[],
   ): Promise<SpotifyApi.MultipleArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(artistIds.join(','))}`;
     return await this.provider.makeRequest(url);
   }
 
-  async getAlbums(
-    artistId: TGetByIdInput,
-  ): Promise<SpotifyApi.ArtistsAlbumsResponse> {
+  async getAlbums(artistId: string): Promise<SpotifyApi.ArtistsAlbumsResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/albums`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
   async getTopTracks(
-    artistId: TGetByIdInput,
+    artistId: string,
   ): Promise<SpotifyApi.ArtistsTopTracksResponse> {
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/top-tracks`;
     url = this.provider.injectMarketIntoUrl(url);
@@ -38,7 +36,7 @@ export class Artist {
   }
 
   async getRelatedArtists(
-    artistId: TGetByIdInput,
+    artistId: string,
   ): Promise<SpotifyApi.ArtistsRelatedArtistsResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.artists}${artistId}/related-artists`;
     return await this.provider.makeRequest(url);

@@ -11,18 +11,17 @@ export class Search {
   }
 
   async forItem(input: TSearchInput): Promise<SpotifyApi.SearchResponse> {
-    const { query, type, limit = 20, offset = 0, include_external } = input;
+    const { query, type, limit, offset, include_external } = input;
     const url = new URL(
       `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.search}`,
     );
 
-    const params: Record<string, string | number> = {
-      query,
-      type: type.join(','),
-      limit,
-      offset,
-    };
+    const params: Record<string, string | number> = {};
 
+    params.q = query;
+    params.type = type.join(',');
+    if (limit) params.limit = limit;
+    if (offset) params.offset = offset;
     if (include_external) params.include_external = include_external;
 
     Object.keys(params).forEach((key) =>
