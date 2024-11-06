@@ -1,61 +1,46 @@
 export type TGetByIdInput = string;
 
-export type TChangePlaylistDetailsInput = {
-  playlistId: string;
-  details: { name: string; description: string; public: boolean };
+export type TPlaylistDetailsOptions = {
+  name: string;
+  description: string;
+  public: boolean;
 };
 
-export type TGetPlaylistItemsInput = {
-  playlistId: string;
-  market?: string;
+export type TGetPlaylistItemsOptions = {
   fields?: string;
   limit?: number;
   offset?: number;
   additional_types?: string;
 };
 
-export type TUpdatePlaylistItemsInput = {
-  playlistId: string;
-  options?: {
-    uris?: string[];
-    range_start?: number;
-    insert_before?: number;
-    range_length?: number;
-    snapshot_id?: string;
-  };
+export type TUpdatePlaylistItemsOptions = {
+  uris?: string[];
+  range_start?: number;
+  insert_before?: number;
+  range_length?: number;
+  snapshot_id?: string;
 };
 
-export type TAddItemsToPlaylistInput = {
-  playlistId: string;
+export type TAddItemsToPlaylistOptions = {
   uris: string[];
   position?: number;
 };
 
-export type TRemoveItemsFromPlaylistInput = {
-  playlistId: string;
+export type TRemoveItemsFromPlaylistOptions = {
   tracks: { uri: string }[];
   snapshot_id?: string;
 };
 
-export type TGetCurrentUserPlaylistsInput = {
+export type TGetUserPlaylistsOptions = {
   limit?: number;
   offset?: number;
 };
 
-export type TGetUserPlaylistsInput = {
-  userId: string;
-  limit?: number;
-  offset?: number;
-};
-
-export type TCreatePlaylistInput = {
-  userId: string;
+export type TCreatePlaylistOptions = {
   name: string;
-  options?: {
-    public?: boolean;
-    collaborative?: boolean;
-    description?: string;
-  };
+  public?: boolean;
+  collaborative?: boolean;
+  description?: string;
 };
 
 export type TAddCoverImageInput = {
@@ -112,15 +97,31 @@ export type TSpotifyRecommendationOptions = {
   target_valence?: number; // Range: 0 - 1
 };
 
-export type TFollowInput = {
+export type TFollowArtistOrUserOptions = {
   type: 'artist' | 'user';
   ids: string[];
 };
 
+export type TSearchTypeOptions =
+  | 'album'
+  | 'artist'
+  | 'playlist'
+  | 'track'
+  | 'show'
+  | 'episode'
+  | 'audiobook';
+
 export interface TSearchInput {
   query: string;
-  type: string[];
+  type: TSearchTypeOptions[];
   limit?: number;
   offset?: number;
   include_external?: string;
+}
+
+export interface TGetUsersTopItemsOptions {
+  type: 'artists' | 'tracks';
+  time_range?: 'long_term' | 'medium_term' | 'short_term';
+  limit?: number;
+  offset?: number;
 }
