@@ -25,6 +25,22 @@ export abstract class ConductorProvider {
 
   public abstract setUserMarket(): Promise<void>;
 
+  public injectParamsIntoUrl(
+    url: string,
+    params: Record<string, string | number | undefined>,
+  ): string {
+    const urlParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        urlParams.append(key, String(value));
+      }
+    });
+
+    return url.includes('?')
+      ? `${url}&${urlParams.toString()}`
+      : `${url}?${urlParams.toString()}`;
+  }
+
   public async makeRequest(
     url: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
