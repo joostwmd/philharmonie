@@ -6,7 +6,7 @@ import {
   spotifyUsersSavedAlbumsResponse,
 } from '../../../mockData/spotify/responses/albums';
 import { spotifyCheckUserSavedAlbumsResponse } from '../../../mockData/spotify/responses/track';
-import { SPOTIFY_URL_PARAMS } from '../../constants';
+import { SPOTIFY_URL_PARAMS } from '../constants';
 import { createMockSuccessResponse, validateRequest } from '../../hepler';
 
 export function handleSpotifyAlbumMockRequests(

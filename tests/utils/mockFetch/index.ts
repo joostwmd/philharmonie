@@ -1,4 +1,4 @@
-import { SPOTIFY_API_BASE_URL } from './constants';
+import { SPOTIFY_API_BASE_URL } from './spotify/constants';
 import { handleSpotifyMockFetch } from './spotify';
 
 export async function mockFetch(url: string, options?: RequestInit) {

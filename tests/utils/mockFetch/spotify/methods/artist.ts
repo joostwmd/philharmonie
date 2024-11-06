@@ -6,7 +6,7 @@ import {
   spotifyArtistsTopTracksResponse,
   spotifyArtistsRelatedArtistsResponse,
 } from '../../../mockData/spotify/responses/artist';
-import { SPOTIFY_URL_PARAMS } from '../../constants';
+import { SPOTIFY_URL_PARAMS } from '../constants';
 import { validateRequest, createMockSuccessResponse } from '../../hepler';
 
 export function handleSpotifyArtistMockRequests(

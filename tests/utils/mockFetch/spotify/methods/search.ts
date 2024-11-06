@@ -1,5 +1,5 @@
 import { spotifySearchResponse } from '../../../mockData/spotify/responses/search';
-import { SPOTIFY_URL_PARAMS } from '../../constants';
+import { SPOTIFY_URL_PARAMS } from '../constants';
 import { createMockSuccessResponse, validateRequest } from '../../hepler';
 
 export function handleSpotifySearchMockRequest(

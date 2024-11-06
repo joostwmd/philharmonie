@@ -6,7 +6,7 @@ import {
   spotifyUserFollowsUsersOrArtistsResponse,
   spotifyUsersFollowPlaylistResponse,
 } from '../../../mockData/spotify/responses/user';
-import { SPOTIFY_URL_PARAMS } from '../../constants';
+import { SPOTIFY_URL_PARAMS } from '../constants';
 import { createMockSuccessResponse, validateRequest } from '../../hepler';
 
 export async function handleSpotifyUserMockRequests(

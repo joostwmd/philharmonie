@@ -12,7 +12,7 @@ import {
   spotifyCreatePlaylistResponse,
   spotifyGetItemsOfPlaylistResponse,
 } from '../../../mockData/spotify/responses/playlist';
-import { SPOTIFY_URL_PARAMS } from '../../constants';
+import { SPOTIFY_URL_PARAMS } from '../constants';
 import { createMockSuccessResponse, validateRequest } from '../../hepler';
 
 export async function handleSpotifyPlaylistMockRequests(
