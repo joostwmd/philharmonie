@@ -13,7 +13,7 @@ export class User {
     this.provider = provider;
   }
 
-  async getUserById(userId: string): Promise<SpotifyApi.UserProfileResponse> {
+  async getById(userId: string): Promise<SpotifyApi.UserProfileResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.users}${userId}`;
     return await this.provider.makeRequest(url);
   }
@@ -28,21 +28,20 @@ export class User {
   ): Promise<
     SpotifyApi.UsersTopArtistsResponse | SpotifyApi.UsersTopTracksResponse
   > {
-    const url = new URL(
-      `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}top/${options.type}`,
-    );
+    console.log('options', options);
+
+    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}top/${options.type}`;
 
     const params: Record<string, string | number> = {};
 
     if (options.time_range) params.time_range = options.time_range;
-    if (options.limit) params.limit = options.limit;
-    if (options.offset) params.offset = options.offset;
+    if (options.limit !== undefined) params.limit = options.limit;
+    if (options.offset !== undefined) params.offset = options.offset;
 
-    Object.keys(params).forEach((key) => {
-      url.searchParams.append(key, String(params[key]));
-    });
+    console.log('params', params);
 
-    return await this.provider.makeRequest(url.toString());
+    url = this.provider.injectParamsIntoUrl(url, params);
+    return await this.provider.makeRequest(url);
   }
 
   async followPlaylist(playlistId: string): Promise<void> {
