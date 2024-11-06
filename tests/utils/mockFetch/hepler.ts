@@ -23,7 +23,7 @@ export function validateHttpMethod(
 }
 
 export function validateRequestBody(intendedBody: any, usedBody: any) {
-  return JSON.stringify(intendedBody) === JSON.stringify(usedBody);
+  return JSON.stringify(intendedBody) === usedBody;
 }
 
 export function validateUrlParams(intendedParams: string[], url: URL): boolean {
@@ -37,14 +37,23 @@ export function validateUrlParams(intendedParams: string[], url: URL): boolean {
   return true;
 }
 
-export function validateRequest(
-  intendedMethod: string,
-  usedMethod: string | undefined,
-  intendedParams: string[],
-  url: string,
-  intendedBody?: any,
-  usedBody?: any,
-): void | ReturnType<typeof createMockErrorResponse> {
+type TValidateRequestInput = {
+  intendedMethod: string;
+  usedMethod?: string;
+  intendedParams: string[];
+  url: string;
+  intendedBody?: any;
+  usedBody?: any;
+};
+
+export function validateRequest({
+  intendedMethod,
+  usedMethod,
+  intendedParams,
+  url,
+  intendedBody,
+  usedBody,
+}: TValidateRequestInput): void | ReturnType<typeof createMockErrorResponse> {
   if (!validateHttpMethod(intendedMethod, usedMethod)) {
     return createMockErrorResponse(
       405,
