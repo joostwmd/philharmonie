@@ -29,6 +29,7 @@ export interface Song extends Resource {
         editorialNotes?: EditorialNotes | undefined;
         genreNames: string[];
         hasLyrics: boolean;
+        isAppleDigitalMaster: boolean;
         isrc: string;
         movementCount?: number | undefined;
         movementName?: string | undefined;
@@ -80,13 +81,14 @@ export interface Artwork {
 // https://developer.apple.com/documentation/applemusicapi/editorialnotes
 export interface EditorialNotes {
   short: string;
-  standard: string;
+  standard?: string;
 }
 
 // https://developer.apple.com/documentation/applemusicapi/playparameters
 export interface PlayParameters {
   id: string;
   kind: string;
+  versionHash?: string;
 }
 
 // https://developer.apple.com/documentation/applemusicapi/preview
@@ -99,6 +101,7 @@ export interface Preview {
 export interface Artist extends Resource {
   attributes?:
     | {
+        artwork?: Artwork | undefined;
         editorialNotes?: EditorialNotes | undefined;
         genreNames: string[];
         name: string;
@@ -126,6 +129,7 @@ export interface Album extends Resource {
         albumName?: string | undefined;
         artistName: string;
         artwork?: Artwork | undefined;
+        upc: string;
         contentRating?: 'clean' | 'explicit' | undefined;
         copyright?: string | undefined;
         editorialNotes?: EditorialNotes | undefined;
@@ -202,7 +206,7 @@ export interface Curator extends Resource {
         playlists?: Relationship<Playlist> | undefined;
       }
     | undefined;
-  type: 'curators';
+  type: 'apple-curators';
 }
 
 export interface Storefront {
