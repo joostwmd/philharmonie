@@ -65,7 +65,6 @@ export type TAddCoverImageInput = {
 
 export type TSpotifyRecommendationOptions = {
   limit?: number; // Default: 20, Range: 1 - 100
-  market?: string; // ISO 3166-1 alpha-2 country code
   seed_artists?: string; // Comma-separated list of Spotify IDs for seed artists
   seed_genres?: string; // Comma-separated list of genres
   seed_tracks?: string; // Comma-separated list of Spotify IDs for seed tracks
@@ -121,7 +120,6 @@ export type TFollowInput = {
 export interface TSearchInput {
   query: string;
   type: string[];
-  market?: string;
   limit?: number;
   offset?: number;
   include_external?: string;
