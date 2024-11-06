@@ -6,15 +6,11 @@ export function handleSpotifySearchMockRequest(
   url: string,
   options?: RequestInit,
 ) {
-  console.log('handleSpotifySearchMockRequest url', url);
-  console.log('handleSpotifySearchMockRequest options', options);
-
   if (url.includes('/v1/search')) {
-    // search for an item
-    const errorResponse = validateRequest(
-      'GET',
-      options?.method,
-      [
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [
         SPOTIFY_URL_PARAMS.market,
         SPOTIFY_URL_PARAMS.query,
         SPOTIFY_URL_PARAMS.type,
@@ -23,7 +19,7 @@ export function handleSpotifySearchMockRequest(
         SPOTIFY_URL_PARAMS.include_external,
       ],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifySearchResponse);
   }

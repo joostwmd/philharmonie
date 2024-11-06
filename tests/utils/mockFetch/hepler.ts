@@ -23,11 +23,14 @@ export function validateHttpMethod(
 }
 
 export function validateRequestBody(intendedBody: any, usedBody: any) {
+  console.log(JSON.stringify(intendedBody), usedBody);
   return JSON.stringify(intendedBody) === usedBody;
 }
 
 export function validateUrlParams(intendedParams: string[], url: URL): boolean {
   const usedParams = url.searchParams;
+
+  console.log(intendedParams, usedParams);
 
   for (const param of intendedParams) {
     if (!usedParams.has(param)) {

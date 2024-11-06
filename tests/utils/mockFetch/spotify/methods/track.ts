@@ -15,103 +15,128 @@ export async function handleSpotifyTrackMockRequests(
   options?: RequestInit,
 ) {
   // Tracks
-  if (url.match(/\/v1\/tracks\/[^/]+$/) && options?.method === 'GET') {
+  if (
+    url.includes('/v1/tracks/') &&
+    !url.includes('/audio-features/') &&
+    !url.includes('?ids=') &&
+    options?.method === 'GET'
+  ) {
+    console.log('mock request spotify single track');
     // get track by id
-    const errorResponse = validateRequest(
-      'GET',
-      options?.method,
-      [SPOTIFY_URL_PARAMS.market],
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [SPOTIFY_URL_PARAMS.market],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifySingleTrackResponse);
   } else if (url.includes('/v1/tracks?ids=') && options?.method === 'GET') {
+    console.log('mock request spotify mutiple track');
     // get multiple tracks by ids
-    const errorResponse = validateRequest(
-      'GET',
-      options?.method,
-      [SPOTIFY_URL_PARAMS.market, SPOTIFY_URL_PARAMS.ids],
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [SPOTIFY_URL_PARAMS.market, SPOTIFY_URL_PARAMS.ids],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifyMultipleTracksResponse);
-  } else if (url.includes('/v1/me/tracks') && options?.method === 'GET') {
+  } else if (
+    url.includes('/v1/me/tracks') &&
+    !url.includes('/contains') &&
+    options?.method === 'GET'
+  ) {
+    console.log('mock request spotify user saved tracks');
     // get user's saved tracks
-    const errorResponse = validateRequest(
-      'GET',
-      options?.method,
-      [
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [
         SPOTIFY_URL_PARAMS.market,
         SPOTIFY_URL_PARAMS.limit,
         SPOTIFY_URL_PARAMS.offset,
       ],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifyUsersSavedTracksResponse);
-  } else if (url.includes('/v1/me/tracks?ids=') && options?.method === 'PUT') {
+  } else if (
+    url.includes('/v1/me/tracks') &&
+    !url.includes('/contains') &&
+    options?.method === 'PUT'
+  ) {
+    console.log('mock request spotify save tracks');
     // save tracks for user
-    const errorResponse = validateRequest(
-      'PUT',
-      options?.method,
-      [SPOTIFY_URL_PARAMS.ids],
+    const errorResponse = validateRequest({
+      intendedMethod: 'PUT',
+      usedMethod: options?.method,
+      intendedParams: [],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(null);
-  } else if (
-    url.includes('/v1/me/tracks?ids=') &&
-    options?.method === 'DELETE'
-  ) {
+  } else if (url.includes('/v1/me/tracks') && options?.method === 'DELETE') {
+    console.log('mock request spotify remove tracks');
     // remove tracks for user
-    const errorResponse = validateRequest(
-      'DELETE',
-      options?.method,
-      [SPOTIFY_URL_PARAMS.ids],
+    const errorResponse = validateRequest({
+      intendedMethod: 'DELETE',
+      usedMethod: options?.method,
+      intendedParams: [],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(null);
   } else if (
     url.includes('/v1/me/tracks/contains?ids=') &&
     options?.method === 'GET'
   ) {
+    console.log('mock request spotify check user saved tracks');
     // check user's saved tracks
-    const errorResponse = validateRequest(
-      'GET',
-      options?.method,
-      [SPOTIFY_URL_PARAMS.ids],
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [SPOTIFY_URL_PARAMS.ids],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifyCheckUserSavedAlbumsResponse);
   } else if (
-    url.match(/\/v1\/audio-features\/[^/]+$/) &&
+    url.includes('/v1/audio-features/') &&
+    !url.includes('?ids=') &&
     options?.method === 'GET'
   ) {
+    console.log('mock request spotify audio features');
     // get track audio features
-    const errorResponse = validateRequest('GET', options?.method, [], url);
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [],
+      url,
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifyAudioFeaturesResponse);
   } else if (
     url.includes('/v1/audio-features?ids=') &&
     options?.method === 'GET'
   ) {
+    console.log('mock request spotify multiple audio features');
     // get multiple audio features
-    const errorResponse = validateRequest(
-      'GET',
-      options?.method,
-      [SPOTIFY_URL_PARAMS.ids],
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [SPOTIFY_URL_PARAMS.ids],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifyMultipleAudioFeaturesResponse);
   } else if (url.includes('/v1/recommendations') && options?.method === 'GET') {
+    console.log('mock request spotify recommendations');
     // get recommendations
-    const errorResponse = validateRequest(
-      'GET',
-      options?.method,
-      [
+    const errorResponse = validateRequest({
+      intendedMethod: 'GET',
+      usedMethod: options?.method,
+      intendedParams: [
         SPOTIFY_URL_PARAMS.limit,
         SPOTIFY_URL_PARAMS.market,
         SPOTIFY_URL_PARAMS.seed_artists,
@@ -132,12 +157,6 @@ export async function handleSpotifyTrackMockRequests(
         SPOTIFY_URL_PARAMS.min_instrumentalness,
         SPOTIFY_URL_PARAMS.max_instrumentalness,
         SPOTIFY_URL_PARAMS.target_instrumentalness,
-        SPOTIFY_URL_PARAMS.min_key,
-        SPOTIFY_URL_PARAMS.max_key,
-        SPOTIFY_URL_PARAMS.target_key,
-        SPOTIFY_URL_PARAMS.min_liveness,
-        SPOTIFY_URL_PARAMS.max_liveness,
-        SPOTIFY_URL_PARAMS.target_liveness,
         SPOTIFY_URL_PARAMS.min_key,
         SPOTIFY_URL_PARAMS.max_key,
         SPOTIFY_URL_PARAMS.target_key,
@@ -165,13 +184,11 @@ export async function handleSpotifyTrackMockRequests(
         SPOTIFY_URL_PARAMS.min_valence,
         SPOTIFY_URL_PARAMS.max_valence,
         SPOTIFY_URL_PARAMS.target_valence,
-        SPOTIFY_URL_PARAMS.min_valence,
-        SPOTIFY_URL_PARAMS.max_valence,
-        SPOTIFY_URL_PARAMS.target_valence,
       ],
       url,
-    );
+    });
     if (errorResponse) return errorResponse;
     return createMockSuccessResponse(spotifyRecommendationsResponse);
   }
+  console.log('mock request spotify track not found');
 }
