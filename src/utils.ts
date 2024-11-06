@@ -39,6 +39,7 @@ export async function handleMakeRequest(
 
     const response = await fetchFunction(url, {
       method,
+      // @ts-ignore
       headers,
       body: body ? JSON.stringify(body) : undefined,
     });
