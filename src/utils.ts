@@ -89,6 +89,6 @@ export function handleProviderError(
   }
 
   const operaError = new OperaError(true, url, provider, statusCode, message);
-  console.error(operaError);
+  //console.error(operaError);
   return operaError;
 }
