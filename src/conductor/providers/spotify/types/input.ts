@@ -6,6 +6,11 @@ export type TPlaylistDetailsOptions = {
   public: boolean;
 };
 
+export type TLimitAndOffsetOptions = {
+  limit?: number;
+  offset?: number;
+};
+
 export type TGetPlaylistItemsOptions = {
   fields?: string;
   limit?: number;
