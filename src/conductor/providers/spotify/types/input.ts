@@ -11,15 +11,31 @@ export type TLimitAndOffsetOptions = {
   offset?: number;
 };
 
+export type TAlbumGroupTypeOptions =
+  | 'album'
+  | 'single'
+  | 'appears_on'
+  | 'compilation';
+
+export interface TGetArtistAlbumsOptions extends TLimitAndOffsetOptions {
+  include_groups?: TAlbumGroupTypeOptions[];
+}
+
 export type TGetPlaylistItemsOptions = {
   fields?: string;
   limit?: number;
   offset?: number;
-  additional_types?: string;
+  additional_types?: TAdditionalTypes[];
+};
+
+type TAdditionalTypes = 'track' | 'episode';
+
+export type TFieldsAndAdditionalTypes = {
+  fields?: string;
+  additional_types?: TAdditionalTypes[];
 };
 
 export type TUpdatePlaylistItemsOptions = {
-  uris?: string[];
   range_start?: number;
   insert_before?: number;
   range_length?: number;
@@ -121,7 +137,7 @@ export interface TSearchInput {
   type: TSearchTypeOptions[];
   limit?: number;
   offset?: number;
-  include_external?: string;
+  include_external?: 'audio';
 }
 
 export interface TGetUsersTopItemsOptions {
