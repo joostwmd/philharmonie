@@ -1,7 +1,15 @@
 import type { AppleMusicConductorProvider } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
-import type { TSearchCatalogItemInput } from '../types/inputs';
 import type { SearchResultsResponse } from '../types/response';
+
+export type TSearchCatalogItemInput = {
+  term: string;
+  types: string[];
+  limit?: number;
+  offset?: string;
+  localization?: string;
+  with?: string[];
+};
 
 export class Search {
   private provider: AppleMusicConductorProvider;
@@ -16,16 +24,13 @@ export class Search {
     const {
       term,
       types,
-      storefront,
       limit = 5,
       offset,
       localization,
       with: withParam,
     } = input;
 
-    const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/${APPLE_MUSIC_METHODS_PATHS.search}`,
-    );
+    let url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/${APPLE_MUSIC_METHODS_PATHS.search}`;
 
     const params: Record<string, string> = {
       term: term.replace(/\s+/g, '+'),
@@ -37,12 +42,8 @@ export class Search {
     if (localization) params.l = localization;
     if (withParam) params.with = withParam.join(',');
 
-    Object.keys(params).forEach((key) => {
-      if (params[key]) {
-        url.searchParams.append(key, params[key]);
-      }
-    });
+    url = this.provider.injectParamsIntoUrl(url, params);
 
-    return await this.provider.makeRequest(url.toString(), 'GET');
+    return await this.provider.makeRequest(url, 'GET');
   }
 }
