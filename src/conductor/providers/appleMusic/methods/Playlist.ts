@@ -7,7 +7,7 @@ import type {
 import type { PlaylistResponse, SongResponse } from '../types/response';
 
 export type TGetLibraryPlaylistByIdOptions = {
-  localization?: string;
+  l?: string;
   include?: string;
   extend?: string;
 };
@@ -21,7 +21,7 @@ export type TGetCurrentUserPlaylistsOptions = {
 };
 
 export type TLocalizationOption = {
-  localization?: string;
+  l?: string;
 };
 
 export class Playlist {
@@ -35,7 +35,7 @@ export class Playlist {
     playlistId: string,
     options: TGetLibraryPlaylistByIdOptions,
   ): Promise<PlaylistResponse> {
-    let url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/playlists/${playlistId}`;
+    let url = `${APPLE_MUSIC_BASE_URL}me/library/playlists/${playlistId}`;
     const params: Record<string, string> = { ...options };
 
     url = this.provider.injectParamsIntoUrl(url, params);
