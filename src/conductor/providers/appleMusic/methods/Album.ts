@@ -3,7 +3,7 @@ import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
 import type { AlbumResponse } from '../types/response';
 
 type TGetAlbumsByUPCOptions = {
-  localization?: string;
+  l?: string;
   include?: string;
   extend?: string;
 };
@@ -31,7 +31,7 @@ export class Album {
     upcs: string[],
     options: TGetAlbumsByUPCOptions,
   ): Promise<AlbumResponse> {
-    let url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}/${this.provider.market}/albums`;
+    let url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/albums`;
     const params: Record<string, string> = {
       ...options,
       'filter[upc]': upcs.join(','),
@@ -44,7 +44,7 @@ export class Album {
   async getSavedAlbumsForUser(
     options: TGetSavedAlbumsForUserOptions,
   ): Promise<AlbumResponse> {
-    let url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/albums`;
+    let url = `${APPLE_MUSIC_BASE_URL}me/library/albums`;
     const params: Record<string, string | number> = { ...options };
 
     url = this.provider.injectParamsIntoUrl(url, params);
@@ -55,7 +55,7 @@ export class Album {
     albumIds: string[],
     options: TSaveAlbumsForUserOptions,
   ): Promise<void> {
-    let url = `${APPLE_MUSIC_BASE_URL}/v1/me/library`;
+    let url = `${APPLE_MUSIC_BASE_URL}me/library`;
     const params: Record<string, string> = {
       'ids[albums]': albumIds.join(','),
     };
