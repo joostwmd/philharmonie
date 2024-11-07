@@ -10,6 +10,13 @@ export const testingConductor = createConductor(
       },
       defaultMarket: 'US',
     },
+    appleMusic: {
+      tokens: {
+        developerToken: 'developerToken',
+        userToken: 'userToken',
+      },
+      defaultMarket: 'US',
+    },
   },
   vi.fn().mockImplementation(mockFetch),
 );
