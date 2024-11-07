@@ -1,7 +1,24 @@
 import type { AppleMusicConductorProvider } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
-import type { TGetMultipleAlbumsByUPCInput } from '../types/inputs';
 import type { AlbumResponse } from '../types/response';
+
+type TGetAlbumsByUPCOptions = {
+  l?: string;
+  include?: string;
+  extend?: string;
+};
+
+export type TGetSavedAlbumsForUserOptions = {
+  include?: string;
+  l?: string;
+  limit?: number;
+  offset?: string;
+  extend?: string;
+};
+
+export type TSaveAlbumsForUserOptions = {
+  localization?: string;
+};
 
 export class Album {
   private provider: AppleMusicConductorProvider;
@@ -11,34 +28,43 @@ export class Album {
   }
 
   async getMultipleByUPC(
-    input: TGetMultipleAlbumsByUPCInput,
+    upcs: string[],
+    options: TGetAlbumsByUPCOptions,
   ): Promise<AlbumResponse> {
-    const { storefront, upcs, localization } = input;
-
-    const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}/${this.provider.market}/albums`,
-    );
-
+    let url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/albums`;
     const params: Record<string, string> = {
+      ...options,
       'filter[upc]': upcs.join(','),
     };
 
-    if (localization) params.l = localization;
-
-    Object.keys(params).forEach((key) =>
-      url.searchParams.append(key, params[key]!),
-    );
-
+    url = this.provider.injectParamsIntoUrl(url, params);
     return await this.provider.makeRequest(url.toString());
   }
 
-  async getSavedAlbumsForUser(): Promise<AlbumResponse> {
-    const url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/albums`;
-    return await this.provider.makeRequest(url);
+  async getSavedAlbumsForUser(
+    options: TGetSavedAlbumsForUserOptions,
+  ): Promise<AlbumResponse> {
+    let url = `${APPLE_MUSIC_BASE_URL}me/library/albums`;
+    const params: Record<string, string | number> = { ...options };
+
+    url = this.provider.injectParamsIntoUrl(url, params);
+    return await this.provider.makeRequest(url.toString());
   }
 
-  async saveAlbumsForUser(albumIds: string[]): Promise<void> {
-    const url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/albums`;
-    return await this.provider.makeRequest(url, 'POST', { ids: albumIds });
+  async saveAlbumsForUser(
+    albumIds: string[],
+    options: TSaveAlbumsForUserOptions,
+  ): Promise<void> {
+    let url = `${APPLE_MUSIC_BASE_URL}me/library`;
+    const params: Record<string, string> = {
+      'ids[albums]': albumIds.join(','),
+    };
+
+    if (options.localization) {
+      params.l = options.localization;
+    }
+
+    url = this.provider.injectParamsIntoUrl(url, params);
+    return await this.provider.makeRequest(url, 'POST');
   }
 }

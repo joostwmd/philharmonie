@@ -1,7 +1,27 @@
 import type { AppleMusicConductorProvider } from '..';
 import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
-import type { TSearchCatalogItemInput } from '../types/inputs';
 import type { SearchResultsResponse } from '../types/response';
+
+type TSearchItemType =
+  | 'activities'
+  | 'albums'
+  | 'apple-curators'
+  | 'artists'
+  | 'curators'
+  | 'music-videos'
+  | 'playlists'
+  | 'record-labels'
+  | 'songs'
+  | 'stations';
+
+export type TSearchCatalogItemInput = {
+  term: string;
+  types: TSearchItemType[];
+  limit?: number;
+  offset?: number;
+  l?: string;
+  with?: 'topResults';
+};
 
 export class Search {
   private provider: AppleMusicConductorProvider;
@@ -13,36 +33,21 @@ export class Search {
   async searchCatalog(
     input: TSearchCatalogItemInput,
   ): Promise<SearchResultsResponse> {
-    const {
-      term,
-      types,
-      storefront,
-      limit = 5,
-      offset,
-      localization,
-      with: withParam,
-    } = input;
+    const { term, types, limit, offset, l, with: withParam } = input;
 
-    const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/${APPLE_MUSIC_METHODS_PATHS.search}`,
-    );
+    let url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/${APPLE_MUSIC_METHODS_PATHS.search}`;
 
     const params: Record<string, string> = {
       term: term.replace(/\s+/g, '+'),
       types: types.join(','),
-      limit: limit.toString(),
     };
 
-    if (offset) params.offset = offset;
-    if (localization) params.l = localization;
-    if (withParam) params.with = withParam.join(',');
+    if (limit) params.limit = limit.toString();
+    if (offset) params.offset = offset.toString();
+    if (l) params.l = l;
+    if (withParam) params.with = withParam;
 
-    Object.keys(params).forEach((key) => {
-      if (params[key]) {
-        url.searchParams.append(key, params[key]);
-      }
-    });
-
-    return await this.provider.makeRequest(url.toString(), 'GET');
+    url = this.provider.injectParamsIntoUrl(url, params);
+    return await this.provider.makeRequest(url, 'GET');
   }
 }

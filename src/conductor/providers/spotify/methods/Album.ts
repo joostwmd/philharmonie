@@ -1,12 +1,7 @@
 import type { SpotifyConductorProvider } from '..';
 import { SPOTIFY_API_BASE_URL, SPOTIFY_METHODS_PATHS } from '../constants';
-import type { TGetByIdInput } from '../types/input';
-import type {
-  TGetAlbumByIdResponse,
-  TGetAlbumTracksResponse,
-  TGetSeveralAlbumsByIdsResponse,
-  TGetUsersSavedAlbumsResponse,
-} from '../types/response';
+import type { TLimitAndOffsetOptions } from '../types/input';
+import type { SpotifyApi } from '../types/typed';
 
 export class Album {
   private provider: SpotifyConductorProvider;
@@ -15,44 +10,51 @@ export class Album {
     this.provider = provider;
   }
 
-  async getById(albumId: TGetByIdInput): Promise<TGetAlbumByIdResponse> {
-    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
+  async getById(albumId: string): Promise<SpotifyApi.SingleAlbumResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums/${albumId}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
   async getSeveralById(
-    albumIds: TGetByIdInput[],
-  ): Promise<TGetSeveralAlbumsByIdsResponse> {
-    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}?ids=${encodeURIComponent(albumIds.join(','))}`;
+    albumIds: string[],
+  ): Promise<SpotifyApi.MultipleAlbumsResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums?ids=${encodeURIComponent(albumIds.join(','))}`;
     url = this.provider.injectMarketIntoUrl(url);
     return await this.provider.makeRequest(url);
   }
 
-  async getTracks(albumId: TGetByIdInput): Promise<TGetAlbumTracksResponse> {
-    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.albums}${albumId}/tracks`;
+  async getTracks(
+    albumId: string,
+    options: TLimitAndOffsetOptions,
+  ): Promise<SpotifyApi.AlbumTracksResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums/${albumId}/tracks`;
     url = this.provider.injectMarketIntoUrl(url);
+    url = this.provider.injectParamsIntoUrl(url, options);
     return await this.provider.makeRequest(url);
   }
 
-  async getUsersSavedAlbums(): Promise<TGetUsersSavedAlbumsResponse> {
-    let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
+  async getUsersSavedAlbums(
+    options: TLimitAndOffsetOptions,
+  ): Promise<SpotifyApi.UsersSavedAlbumsResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}me/albums`;
     url = this.provider.injectMarketIntoUrl(url);
+    url = this.provider.injectParamsIntoUrl(url, options);
     return await this.provider.makeRequest(url);
   }
 
   async saveAlbumsForUser(albumIds: string[]): Promise<void> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}`;
-    return await this.provider.makeRequest(url, 'PUT', { ids: [albumIds] });
+    const url = `${SPOTIFY_API_BASE_URL}me/albums`;
+    return await this.provider.makeRequest(url, 'PUT', { ids: albumIds });
   }
 
-  async removeAlbumForUser(albumId: TGetByIdInput): Promise<void> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}${albumId}`;
-    return await this.provider.makeRequest(url, 'DELETE', { ids: [albumId] });
+  async removeAlbumsForUser(albumIds: string[]): Promise<void> {
+    const url = `${SPOTIFY_API_BASE_URL}me/albums`;
+    return await this.provider.makeRequest(url, 'DELETE', { ids: [albumIds] });
   }
 
-  async checkUsersSavedAlbums(albumIds: TGetByIdInput[]): Promise<boolean[]> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}${SPOTIFY_METHODS_PATHS.albums}contains`;
-    return await this.provider.makeRequest(url, 'GET', { ids: albumIds });
+  async checkUsersSavedAlbums(albumIds: string[]): Promise<boolean[]> {
+    const url = `${SPOTIFY_API_BASE_URL}me/albums/contains?ids=${encodeURIComponent(albumIds.join(','))}`;
+    return await this.provider.makeRequest(url);
   }
 }

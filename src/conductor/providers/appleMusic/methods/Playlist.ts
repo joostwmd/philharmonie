@@ -6,6 +6,24 @@ import type {
 } from '../types/inputs';
 import type { PlaylistResponse, SongResponse } from '../types/response';
 
+export type TGetLibraryPlaylistByIdOptions = {
+  l?: string;
+  include?: string;
+  extend?: string;
+};
+
+export type TGetCurrentUserPlaylistsOptions = {
+  include?: string;
+  l?: string;
+  limit?: number;
+  offset?: string;
+  extend?: string;
+};
+
+export type TLocalizationOption = {
+  l?: string;
+};
+
 export class Playlist {
   private provider: AppleMusicConductorProvider;
 
@@ -13,17 +31,25 @@ export class Playlist {
     this.provider = provider;
   }
 
-  async getById(playlistId: string): Promise<PlaylistResponse> {
-    const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}/me/library/playlists/${playlistId}`,
-    );
+  async getLibraryById(
+    playlistId: string,
+    options: TGetLibraryPlaylistByIdOptions,
+  ): Promise<PlaylistResponse> {
+    let url = `${APPLE_MUSIC_BASE_URL}me/library/playlists/${playlistId}`;
+    const params: Record<string, string> = { ...options };
 
-    return await this.provider.makeRequest(url.toString());
+    url = this.provider.injectParamsIntoUrl(url, params);
+    return await this.provider.makeRequest(url);
   }
 
-  async getCurrentUserPlaylists(): Promise<PlaylistResponse> {
-    const url = new URL(`${APPLE_MUSIC_BASE_URL}/me/library/playlists`);
-    return await this.provider.makeRequest(url.toString());
+  async getCurrentUserPlaylists(
+    options: TGetCurrentUserPlaylistsOptions,
+  ): Promise<PlaylistResponse> {
+    let url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/playlists`;
+    const params: Record<string, string | number> = { ...options };
+
+    url = this.provider.injectParamsIntoUrl(url, params);
+    return await this.provider.makeRequest(url);
   }
 
   async create(input: TCreatePlaylistInput): Promise<PlaylistResponse> {
@@ -44,15 +70,13 @@ export class Playlist {
     return await this.provider.makeRequest(url.toString(), 'POST', body);
   }
 
-  async addTracksToPlaylist(input: TAddTracksToPlaylistInput): Promise<void> {
-    const { playlistId, trackIds, localization } = input;
-    const url = new URL(
-      `${APPLE_MUSIC_BASE_URL}me/library/playlists/${playlistId}/tracks`,
-    );
-
-    if (localization) {
-      url.searchParams.append('l', localization);
-    }
+  async addTracksToPlaylist(
+    playlistId: string,
+    trackIds: string[],
+    options: TLocalizationOption,
+  ): Promise<void> {
+    let url = `${APPLE_MUSIC_BASE_URL}me/library/playlists/${playlistId}/tracks`;
+    url = this.provider.injectParamsIntoUrl(url, options);
 
     const body = {
       data: trackIds.map((trackId) => ({
@@ -61,7 +85,7 @@ export class Playlist {
       })),
     };
 
-    return await this.provider.makeRequest(url.toString(), 'POST', body);
+    return await this.provider.makeRequest(url, 'POST', body);
   }
 
   async getUserPlaylistTracks(playlistId: string): Promise<SongResponse> {

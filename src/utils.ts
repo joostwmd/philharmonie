@@ -32,38 +32,29 @@ export async function handleMakeRequest(
   provider: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   body?: any,
-): Promise<any | ProviderError> {
+  fetchFunction: typeof fetch = fetch,
+): Promise<any | OperaError> {
   try {
-    console.log(
-      `Making ${method} request to ${provider}. The endpoint is ${url}`,
-    );
-
     const headers = constructHeader(tokens, provider);
 
-    console.log('headers', headers);
-
-    const response = await fetch(url, {
+    const response = await fetchFunction(url, {
       method,
+      // @ts-ignore
       headers,
       body: body ? JSON.stringify(body) : undefined,
     });
 
     if (!response.ok) {
-      return handleProviderError(response, url, provider);
+      throw handleProviderError(response, url, provider);
     }
 
     return await response.json();
   } catch (error) {
-    return handleProviderError(error, url, provider);
+    if (error instanceof OperaError) {
+      throw error;
+    }
+    throw handleProviderError(error, url, provider);
   }
-}
-
-export interface ProviderError extends Error {
-  failed: true;
-  url: string;
-  provider: string;
-  statusCode: number;
-  message: string;
 }
 
 export class OperaError extends Error {
@@ -82,7 +73,7 @@ export function handleProviderError(
   error: any,
   url: string,
   provider: string,
-): ProviderError {
+): OperaError {
   let statusCode;
   let message;
 
@@ -92,7 +83,12 @@ export function handleProviderError(
   } else if (error.status) {
     statusCode = error.status;
     message = error.statusText || 'Unknown Error';
+  } else {
+    statusCode = 500;
+    message = error.message || 'Unknown Error';
   }
 
-  throw new OperaError(true, url, provider, statusCode, message);
+  const operaError = new OperaError(true, url, provider, statusCode, message);
+  //console.error(operaError);
+  return operaError;
 }

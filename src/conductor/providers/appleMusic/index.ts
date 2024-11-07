@@ -18,8 +18,11 @@ export class AppleMusicConductorProvider extends ConductorProvider {
     this.market = userProfile.data[0]!.id;
   }
 
-  constructor(providerConfig: TConductorProviderConfig<'appleMusic'>) {
-    super('appleMusic', providerConfig);
+  constructor(
+    providerConfig: TConductorProviderConfig<'appleMusic'>,
+    fetchFunction?: typeof fetch,
+  ) {
+    super('appleMusic', providerConfig, fetchFunction);
 
     this.album = new Album(this);
     this.playlist = new Playlist(this);

@@ -1,61 +1,67 @@
 export type TGetByIdInput = string;
 
-export type TChangePlaylistDetailsInput = {
-  playlistId: string;
-  details: { name: string; description: string; public: boolean };
+export type TPlaylistDetailsOptions = {
+  name: string;
+  description: string;
+  public: boolean;
 };
 
-export type TGetPlaylistItemsInput = {
-  playlistId: string;
-  market?: string;
+export type TLimitAndOffsetOptions = {
+  limit?: number;
+  offset?: number;
+};
+
+export type TAlbumGroupTypeOptions =
+  | 'album'
+  | 'single'
+  | 'appears_on'
+  | 'compilation';
+
+export interface TGetArtistAlbumsOptions extends TLimitAndOffsetOptions {
+  include_groups?: TAlbumGroupTypeOptions[];
+}
+
+export type TGetPlaylistItemsOptions = {
   fields?: string;
   limit?: number;
   offset?: number;
-  additional_types?: string;
+  additional_types?: TAdditionalTypes[];
 };
 
-export type TUpdatePlaylistItemsInput = {
-  playlistId: string;
-  options?: {
-    uris?: string[];
-    range_start?: number;
-    insert_before?: number;
-    range_length?: number;
-    snapshot_id?: string;
-  };
+type TAdditionalTypes = 'track' | 'episode';
+
+export type TFieldsAndAdditionalTypes = {
+  fields?: string;
+  additional_types?: TAdditionalTypes[];
 };
 
-export type TAddItemsToPlaylistInput = {
-  playlistId: string;
+export type TUpdatePlaylistItemsOptions = {
+  range_start?: number;
+  insert_before?: number;
+  range_length?: number;
+  snapshot_id?: string;
+};
+
+export type TAddItemsToPlaylistOptions = {
   uris: string[];
   position?: number;
 };
 
-export type TRemoveItemsFromPlaylistInput = {
-  playlistId: string;
+export type TRemoveItemsFromPlaylistOptions = {
   tracks: { uri: string }[];
   snapshot_id?: string;
 };
 
-export type TGetCurrentUserPlaylistsInput = {
+export type TGetUserPlaylistsOptions = {
   limit?: number;
   offset?: number;
 };
 
-export type TGetUserPlaylistsInput = {
-  userId: string;
-  limit?: number;
-  offset?: number;
-};
-
-export type TCreatePlaylistInput = {
-  userId: string;
+export type TCreatePlaylistOptions = {
   name: string;
-  options?: {
-    public?: boolean;
-    collaborative?: boolean;
-    description?: string;
-  };
+  public?: boolean;
+  collaborative?: boolean;
+  description?: string;
 };
 
 export type TAddCoverImageInput = {
@@ -65,7 +71,6 @@ export type TAddCoverImageInput = {
 
 export type TSpotifyRecommendationOptions = {
   limit?: number; // Default: 20, Range: 1 - 100
-  market?: string; // ISO 3166-1 alpha-2 country code
   seed_artists?: string; // Comma-separated list of Spotify IDs for seed artists
   seed_genres?: string; // Comma-separated list of genres
   seed_tracks?: string; // Comma-separated list of Spotify IDs for seed tracks
@@ -113,16 +118,31 @@ export type TSpotifyRecommendationOptions = {
   target_valence?: number; // Range: 0 - 1
 };
 
-export type TFollowInput = {
+export type TFollowArtistOrUserOptions = {
   type: 'artist' | 'user';
   ids: string[];
 };
 
+export type TSearchTypeOptions =
+  | 'album'
+  | 'artist'
+  | 'playlist'
+  | 'track'
+  | 'show'
+  | 'episode'
+  | 'audiobook';
+
 export interface TSearchInput {
   query: string;
-  type: string[];
-  market?: string;
+  type: TSearchTypeOptions[];
   limit?: number;
   offset?: number;
-  include_external?: string;
+  include_external?: 'audio';
+}
+
+export interface TGetUsersTopItemsOptions {
+  type: 'artists' | 'tracks';
+  time_range?: 'long_term' | 'medium_term' | 'short_term';
+  limit?: number;
+  offset?: number;
 }
