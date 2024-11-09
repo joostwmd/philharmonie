@@ -85,21 +85,23 @@ export class Song {
 
   async getMultipleByISRC(
     isrcs: string[],
-    options: TGetMultipleByISRCOptions,
+    options?: TGetMultipleByISRCOptions,
   ): Promise<SongResponse> {
     let url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/songs`;
     const params: Record<string, string> = {
       'filter[isrc]': isrcs.join(','),
     };
 
-    if (options.l) {
-      params.l = options.l;
-    }
-    if (options.include) {
-      params.include = options.include.join(',');
-    }
-    if (options.extend) {
-      params.extend = options.extend.join(',');
+    if (options) {
+      if (options.l) {
+        params.l = options.l;
+      }
+      if (options.include) {
+        params.include = options.include.join(',');
+      }
+      if (options.extend) {
+        params.extend = options.extend.join(',');
+      }
     }
 
     url = this.provider.injectParamsIntoUrl(url, params);

@@ -45,7 +45,7 @@ export class Playlist {
   async getCurrentUserPlaylists(
     options: TGetCurrentUserPlaylistsOptions,
   ): Promise<PlaylistResponse> {
-    let url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/playlists`;
+    let url = `${APPLE_MUSIC_BASE_URL}me/library/playlists`;
     const params: Record<string, string | number> = { ...options };
 
     url = this.provider.injectParamsIntoUrl(url, params);
@@ -84,7 +84,6 @@ export class Playlist {
         type: 'songs',
       })),
     };
-
     return await this.provider.makeRequest(url, 'POST', body);
   }
 

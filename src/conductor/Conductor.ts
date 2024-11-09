@@ -2,6 +2,8 @@ import { SpotifyConductorProvider } from './providers/spotify';
 import { AppleMusicConductorProvider } from './providers/appleMusic';
 import type { TConductorInstance, TConductorProvidersConfig } from './types';
 
+export type TInitializedConductor = Conductor<TConductorProvidersConfig>;
+
 export class Conductor<Config extends TConductorProvidersConfig> {
   public spotify?: SpotifyConductorProvider;
   public appleMusic?: AppleMusicConductorProvider;

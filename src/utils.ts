@@ -36,7 +36,6 @@ export async function handleMakeRequest(
 ): Promise<any | OperaError> {
   try {
     const headers = constructHeader(tokens, provider);
-
     const response = await fetchFunction(url, {
       method,
       // @ts-ignore
@@ -48,7 +47,17 @@ export async function handleMakeRequest(
       throw handleProviderError(response, url, provider);
     }
 
-    return await response.json();
+    const responseText = await response.text();
+    if (!responseText) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(responseText);
+    } catch (error) {
+      console.warn('Failed to parse response as JSON:', error);
+      return null;
+    }
   } catch (error) {
     if (error instanceof OperaError) {
       throw error;
@@ -89,6 +98,5 @@ export function handleProviderError(
   }
 
   const operaError = new OperaError(true, url, provider, statusCode, message);
-  //console.error(operaError);
   return operaError;
 }

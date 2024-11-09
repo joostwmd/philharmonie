@@ -48,6 +48,7 @@ export class Search {
     if (withParam) params.with = withParam;
 
     url = this.provider.injectParamsIntoUrl(url, params);
+    console.log('search url', url);
     return await this.provider.makeRequest(url, 'GET');
   }
 }
