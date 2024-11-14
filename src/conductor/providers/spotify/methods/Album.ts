@@ -1,7 +1,7 @@
-import type { SpotifyConductorProvider } from '..';
-import { SPOTIFY_API_BASE_URL } from '../constants';
-import type { TLimitAndOffsetOptions } from '../types/input';
-import type { SpotifyApi } from '../types/typed';
+import type { SpotifyConductorProvider } from '../../spotify';
+import { SPOTIFY_API_BASE_URL } from '../../spotify/constants';
+import type { TLimitAndOffsetOptions } from '../../spotify/types/input';
+import type { SpotifyApi } from '../../spotify/types/typed';
 
 export class Album {
   private provider: SpotifyConductorProvider;
@@ -11,23 +11,45 @@ export class Album {
   }
 
   /**
-   * Fetches multiple albums by their UPCs.
+   * Fetches an album by its ID.
    *
-   * @param upcs - An array of UPCs to fetch albums for.
-   * @param options - Additional options for the request.
-   * @returns A promise that resolves to an AlbumResponse.
+   * @param albumId - The ID of the album to fetch.
+   * @returns A promise that resolves to a SingleAlbumResponse.
    */
-  async getMultipleByUPC(
-    upcs: string[],
-    options: any,
-  ): Promise<SpotifyApi.AlbumObjectFull> {
-    let url = `${SPOTIFY_API_BASE_URL}albums`;
-    const params: Record<string, string> = {
-      ...options,
-      'filter[upc]': upcs.join(','),
-    };
+  async getById(albumId: string): Promise<SpotifyApi.SingleAlbumResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums/${albumId}`;
+    url = this.provider.injectMarketIntoUrl(url);
+    return await this.provider.makeRequest(url);
+  }
 
-    url = this.provider.injectParamsIntoUrl(url, params);
+  /**
+   * Fetches several albums by their IDs.
+   *
+   * @param albumIds - An array of album IDs to fetch.
+   * @returns A promise that resolves to a MultipleAlbumsResponse.
+   */
+  async getSeveralById(
+    albumIds: string[],
+  ): Promise<SpotifyApi.MultipleAlbumsResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums?ids=${encodeURIComponent(albumIds.join(','))}`;
+    url = this.provider.injectMarketIntoUrl(url);
+    return await this.provider.makeRequest(url);
+  }
+
+  /**
+   * Fetches the tracks of an album by its ID.
+   *
+   * @param albumId - The ID of the album to fetch tracks for.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to an AlbumTracksResponse.
+   */
+  async getTracks(
+    albumId: string,
+    options: TLimitAndOffsetOptions,
+  ): Promise<SpotifyApi.AlbumTracksResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums/${albumId}/tracks`;
+    url = this.provider.injectMarketIntoUrl(url);
+    url = this.provider.injectParamsIntoUrl(url, options);
     return await this.provider.makeRequest(url);
   }
 
