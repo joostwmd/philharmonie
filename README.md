@@ -316,16 +316,16 @@ The Repertoire is a collection of common, complex workflows that utilize multipl
 The workflows are categorized into three levels of complexity, inspired by atomic design principles: Recitals, Concertinos, and Concerts.
 
 - Recticals: Simple workflows that implement logic for a single provider.
-  - [matchTrackOnAppleMusic]('https://github.com/joostwmd/opera/blob/master/repertoire/recticals/matchTrackOnAppleMusic.ts')
-  - [fetchAllSpotifyPlaylistsTracks]('https://github.com/joostwmd/opera/blob/master/repertoire/recticals/fetchAllSpotifyPlaylistsTracks.ts')
+  - [matchTrackOnAppleMusic](https://github.com/joostwmd/opera/blob/master/repertoire/recticals/matchTrackOnAppleMusic.ts)
+  - [fetchAllSpotifyPlaylistsTracks](https://github.com/joostwmd/opera/blob/master/repertoire/recticals/fetchAllSpotifyPlaylistsTracks.ts)
 - Concertinos: More complex workflows that incorporate Recitals and handle interactions between multiple providers.
-  - [transferSpotifyPlaylistToAppleMusic]('https://github.com/joostwmd/opera/blob/master/repertoire/conertionos/transferSpotifyPlaylistToAppleMusic.ts')
-  - [transferAppleMusicPlaylistToSpotify]('https://github.com/joostwmd/opera/blob/master/repertoire/conertionos/transferAppleMusicPlaylistToSpotify.ts')
+  - [transferSpotifyPlaylistToAppleMusic](https://github.com/joostwmd/opera/blob/master/repertoire/conertionos/transferSpotifyPlaylistToAppleMusic.ts)
+  - [transferAppleMusicPlaylistToSpotify](https://github.com/joostwmd/opera/blob/master/repertoire/conertionos/transferAppleMusicPlaylistToSpotify.ts)
 - Conerts: The most complex workflows, implementing logic across all available platforms.
-  - [transferPlayist]('https://github.com/joostwmd/opera/blob/master/repertoire/concerts/transferPlayist.ts')
+  - [transferPlayist](https://github.com/joostwmd/opera/blob/master/repertoire/concerts/transferPlayist.ts)
 
-Explore these workflows for your projects.
-If you've created something using the Conductor class, refer to the [contribution guide]('https://www.google.com') to find out how to have your flow featured.
+Explore these workflows for your projects.å
+If you've created something using the Conductor class, refer to the [contribution guide](https://www.google.com) to find out how to have your flow featured.
 
 ## Contributing
 
@@ -367,7 +367,7 @@ Please note that you must also comply with the developer agreements of the music
 
 #### Links for Developer Agreements for all implemented providers
 
-- [Spotify]('https://developer.spotify.com/terms')
+- [Spotify](https://developer.spotify.com/terms)
 - [Apple Music](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/#d336)
 
 ## Client Credentials Setup Guides
