@@ -49,7 +49,7 @@ Note that user authentication is not included in this package to ensure compatib
 
 ### Prerequisites
 
-Before you begin, ensure you have obtained your client credentials (ID and SECRET) for the providers you want to use. Refer to the [Client Credentials Setup Guide](https://google.com) for detailed instructions on how to acquire these credentials.
+Before you begin, ensure you have obtained your client credentials (ID and SECRET) for the providers you want to use. Refer to the [Client Credentials Setup Guide](#client-credentials-setup-guides) for detailed instructions on how to acquire these credentials.
 
 #### Install the package
 
@@ -102,12 +102,12 @@ const playlistData = await conductor.spotify.playlist.getById('playlist-id');
 
 And thats it, you have successfully made you first API call using the Conductor.
 
-Now learn more about the [Gardrobe](https://www.google.com) and [Conductor](https://www.google.com) class
+Now learn more about the [Gardrobe](#gardrobe) and [Conductor](#conductor) class
 
 ## Gardrobe
 
 The Garderobe class provides a structured way to obtain tokens via the client credentials flow and refreshing tokens. It implements providers that follow
-OAuth 2 standards. Only Apple does not use this standard, instead they rely on JWT tokens that can't be obtained nor refreshed via an API. For further information on how to obtain these tokens check out the [Client Credential Setup Guide for Apple](https://google.com)
+OAuth 2 standards. Only Apple does not use this standard, instead they rely on JWT tokens that can't be obtained nor refreshed via an API. For further information on how to obtain these tokens check out the [Client Credential Setup Guide for Apple](#apple-music-1)
 
 ### Initalizing the Gardrobe
 
@@ -354,8 +354,8 @@ The workflows are categorized into three levels of complexity, inspired by atomi
 - Conerts: The most complex workflows, implementing logic across all available platforms.
   - [transferPlayist](https://github.com/joostwmd/opera/blob/master/repertoire/concerts/transferPlayist.ts)
 
-Explore these workflows for your projects.å
-If you've created something using the Conductor class, refer to the [contribution guide](https://www.google.com) to find out how to have your flow featured.
+Explore these workflows for your projects.
+If you've created something using the Conductor class, refer to the [contribution guide](#contributing) to find out how to have your flow featured.
 
 ## Contributing
 
