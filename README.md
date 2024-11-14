@@ -60,13 +60,13 @@ Before you begin, ensure you have obtained your client credentials (ID and SECRE
 
 #### Import the Gardrobe and Conductor
 
-```js
+```java-script
 import { createConductor, createGarderobe } from 'philharmonie';
 ```
 
 #### Initialize the Gardrobe
 
-```js
+```java-script
 const garderobe = createGarderobe({
   spotify: {
     clientId: AUTH_SPOTIFY_ID,
@@ -77,13 +77,13 @@ const garderobe = createGarderobe({
 
 #### Obtain a Token using the client credentials flow
 
-```js
+```java-script
 const session = garderobe.spotify.createSession.withClientCredentials();
 ```
 
 #### Initialize the Conductor
 
-```js
+```java-script
 export const conductor = createConductor({
   spotify: {
     tokens: {
@@ -96,7 +96,7 @@ export const conductor = createConductor({
 
 #### Make an API withClientCredentials
 
-```js
+```java-script
 const playlistData = await conductor.spotify.playlist.getById('playlist-id');
 ```
 
@@ -113,13 +113,13 @@ OAuth 2 standards. Only Apple does not use this standard, instead they rely on J
 
 To initalize this class you can use the function
 
-```js
+```java-script
 createGardrobe();
 ```
 
 You have to pass an object containing the client ids and secrets for every provider you want to use. The Gardroe is ment to be used on the server, where you can use your client secret safely. As of right now, only Spotify is implemented.
 
-```js
+```java-script
 const garderobe = createGarderobe({
   spotify: {
     clientId: AUTH_SPOTIFY_ID,
@@ -132,7 +132,7 @@ Once the class is initalized, you can use it to obtain a token or refresh a toke
 
 #### Obtain a Spotify token with Client Crednetials flow
 
-```js
+```java-script
 const session = garderobe.spotify.createSession.withClientCredentials();
 ```
 
@@ -151,6 +151,8 @@ Once you obtained a valid token, you can use it to initalize the Conductor class
 ## Conductor
 
 The Conductor class provides methods for interacting with the API endpoints of integrated providers, currently including Spotify and Apple Music.
+
+![class schema](guides/conductor-schema.png)
 
 Before utilizing these methods, it's important to understand three key principles:
 
@@ -215,7 +217,23 @@ Every provider has a helper function called
   Conductor.apple.setUserMarket()
 ```
 
-This funciton fetches the current users market and sets it internally so it is automatically used in future requests
+This funciton fetches the current users market and sets it internally so it is automatically used in future requests.
+
+When initializing the Conductor you also have the option of passing a custom fetch function, that will override the default fetch function. This comes in handy for testing or caching data:
+
+```javasript
+const conductor = createConductor(
+  {
+    spotify: {
+      tokens: {
+        accessToken: 'accessToken',
+      },
+      defaultMarket: 'US',
+    }
+  },
+  customFetch
+);
+```
 
 #### Spotify
 
@@ -464,15 +482,15 @@ Apple requires a JWT that has the following information:
 - alg (Algorithm): The algorithm used to sign the token. For Apple Music, this should be ES256 (Elliptic Curve Digital Signature Algorithm using P-256 and SHA-256).
 - kid (Key ID): The ID of the private key you created and downloaded from your Apple Developer account.
 
-There are many scripts out there that are supposed to help you generate a valid JWT. Most of them don't seem to work. I managed to successfully generate a token using Auth.js by running the command `npx auth add apple`.
+There are many scripts out there that are supposed to help you generate a valid JWT. Most of them don't seem to work. I managed to successfully generate a token using Auth.java-script by running the command `npx auth add apple`.
 
-This adds the token automatically into your `.env` file. If your project does not use Auth.js and you don't want to spin up a new project just to generate a token, I provide you here with a link to the source code of the CLI command: [Generate Secret](https://github.com/nextauthjs/cli/blob/main/lib/apple-gen-secret.js).
+This adds the token automatically into your `.env` file. If your project does not use Auth.java-script and you don't want to spin up a new project just to generate a token, I provide you here with a link to the source code of the CLI command: [Generate Secret](https://github.com/nextauthjs/cli/blob/main/lib/apple-gen-secret.java-script).
 
 Now you should have a valid JWT developer token that you can use to access public Apple Music data.
 
 #### Obtaining the User Token
 
-To obtain the user token, you need to use the official [MusicKit on the Web Project](https://js-cdn.music.apple.com/musickit/v3/docs/index.html?path=/story/introduction--page).
+To obtain the user token, you need to use the official [MusicKit on the Web Project](https://java-script-cdn.music.apple.com/musickit/v3/docs/index.html?path=/story/introduction--page).
 
 Follow the instructions to set up MusicKit in your web project.
 
