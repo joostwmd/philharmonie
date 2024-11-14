@@ -426,15 +426,31 @@ Apple does not adhere to industry standards nor provide a pleasant developer exp
 
 The first step is to go to the [Apple Developer Dashboard](https://developer.apple.com/account) and create an account. Yes, you need to pay to join the Apple Developer Program.
 
-Once your account is created, the next step is to create an App ID for your new project.
+Once you signed up, navigate to the Certificates, Identifiers & Profiles page, then click Identifiers in the left-hand menu.
 
-Now you need to create a Media ID for your project and check the box for MusicKit.
+Now click the blue plus button next to the Identifiers title or the blue Register an App ID button.
 
-After you create your ID, you now have to generate a key. For that, click on "Keys" on the sidebar.
+![screenshot of apple developer dashboard](guides/client-credentials/appleMusic/1.png)
 
-Now create your key and select and configure the Media Services by selecting the Media ID we previously generated.
+On the Register a new identifier page choose Media IDs, then fill out the description and identifier for your Media ID. Enable MusicKit, then click the blue Continue button in the upper right.
 
-Register your key and download it.
+![screenshot of apple developer dashboard](guides/client-credentials/appleMusic/2.png)
+
+After you create your Media ID, you now have to generate a key. To do that navigate to the Keys page by clicking the link in the left-hand menu. Click the blue plus button next to the Keys title or the blue Create a key button.
+
+![screenshot of apple developer dashboard](guides/client-credentials/appleMusic/3.png)
+
+Name your key, then enable Media Services (MusicKit, ShazamKit). You'll need to associate the Media ID we created earlier with this service before continuing, so click the white Configure button.
+
+![screenshot of apple developer dashboard](guides/client-credentials/appleMusic/4.png)
+
+Select the Media ID you created from the drop down menu. Click the blue Save button in the top right to continue.
+
+![screenshot of apple developer dashboard](guides/client-credentials/appleMusic/5.png)
+
+Check to ensure all your information is correct, then click Register. Take note of your Key ID. If you're ready to download the key, click the blue Download button in the top right.
+
+![screenshot of apple developer dashboard](guides/client-credentials/appleMusic/6.png)
 
 ##### Generate the Developer JWT
 
