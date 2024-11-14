@@ -239,11 +239,13 @@ const conductor = createConductor(
 
 - Albums
 
-  - [getById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L40)
-  - [getUsersSavedAlbums](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L60)
-  - [saveAlbumForUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L77)
-  - [removeAlbumsForUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L100)
-  - [checkUsersSavedAlbums](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L111)
+  - [getById](https://github.com/joostwmd/opera/blob/e4c01d98a4d719824c26663b111595f1e9bae102/src/conductor/providers/spotify/methods/Album.ts#L19)
+  - [getSeveralById](https://github.com/joostwmd/opera/blob/e4c01d98a4d719824c26663b111595f1e9bae102/src/conductor/providers/spotify/methods/Album.ts#L31)
+  - [getTracks](https://github.com/joostwmd/opera/blob/e4c01d98a4d719824c26663b111595f1e9bae102/src/conductor/providers/spotify/methods/Album.ts#L46)
+  - [getUsersSavedAlbums](https://github.com/joostwmd/opera/blob/e4c01d98a4d719824c26663b111595f1e9bae102/src/conductor/providers/spotify/methods/Album.ts#L62)
+  - [saveAlbumForUser](https://github.com/joostwmd/opera/blob/e4c01d98a4d719824c26663b111595f1e9bae102/src/conductor/providers/spotify/methods/Album.ts#L77)
+  - [removeAlbumsForUser](https://github.com/joostwmd/opera/blob/e4c01d98a4d719824c26663b111595f1e9bae102/src/conductor/providers/spotify/methods/Album.ts#L88)
+  - [checkUsersSavedAlbums](https://github.com/joostwmd/opera/blob/e4c01d98a4d719824c26663b111595f1e9bae102/src/conductor/providers/spotify/methods/Album.ts#L99)
 
 - Artist
 
