@@ -9,11 +9,24 @@ export class Artist {
   constructor(provider: SpotifyConductorProvider) {
     this.provider = provider;
   }
+
+  /**
+   * Fetches an artist by their ID.
+   *
+   * @param artistId - The ID of the artist to fetch.
+   * @returns A promise that resolves to a SingleArtistResponse.
+   */
   async getById(artistId: string): Promise<SpotifyApi.SingleArtistResponse> {
     const url = `${SPOTIFY_API_BASE_URL}artists/${artistId}`;
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches several artists by their IDs.
+   *
+   * @param artistIds - An array of artist IDs to fetch.
+   * @returns A promise that resolves to a MultipleArtistsResponse.
+   */
   async getSeveralById(
     artistIds: string[],
   ): Promise<SpotifyApi.MultipleArtistsResponse> {
@@ -21,6 +34,13 @@ export class Artist {
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches albums of an artist by their ID.
+   *
+   * @param artistId - The ID of the artist to fetch albums for.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to an ArtistsAlbumsResponse.
+   */
   async getAlbums(
     artistId: string,
     options: TGetArtistAlbumsOptions,
@@ -41,6 +61,12 @@ export class Artist {
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches the top tracks of an artist by their ID.
+   *
+   * @param artistId - The ID of the artist to fetch top tracks for.
+   * @returns A promise that resolves to an ArtistsTopTracksResponse.
+   */
   async getTopTracks(
     artistId: string,
   ): Promise<SpotifyApi.ArtistsTopTracksResponse> {
@@ -49,6 +75,12 @@ export class Artist {
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches related artists of an artist by their ID.
+   *
+   * @param artistId - The ID of the artist to fetch related artists for.
+   * @returns A promise that resolves to an ArtistsRelatedArtistsResponse.
+   */
   async getRelatedArtists(
     artistId: string,
   ): Promise<SpotifyApi.ArtistsRelatedArtistsResponse> {

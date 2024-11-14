@@ -30,6 +30,12 @@ export class Search {
     this.provider = provider;
   }
 
+  /**
+   * Searches the Apple Music catalog.
+   *
+   * @param input - The input data for the search.
+   * @returns A promise that resolves to a SearchResultsResponse.
+   */
   async searchCatalog(
     input: TSearchCatalogItemInput,
   ): Promise<SearchResultsResponse> {

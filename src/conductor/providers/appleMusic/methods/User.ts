@@ -17,6 +17,12 @@ export class User {
     this.provider = provider;
   }
 
+  /**
+   * Fetches the storefront for the current user.
+   *
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to a StorefrontResponse.
+   */
   async getStorefront(
     options: TGetStorefrontOptions = {},
   ): Promise<StorefrontResponse> {

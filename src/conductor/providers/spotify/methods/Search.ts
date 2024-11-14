@@ -10,6 +10,12 @@ export class Search {
     this.provider = provider;
   }
 
+  /**
+   * Searches for an item in the Spotify catalog.
+   *
+   * @param input - The input data for the search.
+   * @returns A promise that resolves to a SearchResponse.
+   */
   async forItem(input: TSearchInput): Promise<SpotifyApi.SearchResponse> {
     const { query, type, limit, offset, include_external } = input;
     let url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.search}`;

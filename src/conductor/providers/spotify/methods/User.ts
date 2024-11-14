@@ -13,16 +13,33 @@ export class User {
     this.provider = provider;
   }
 
+  /**
+   * Fetches a user by their ID.
+   *
+   * @param userId - The ID of the user to fetch.
+   * @returns A promise that resolves to a UserProfileResponse.
+   */
   async getById(userId: string): Promise<SpotifyApi.UserProfileResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.users}${userId}`;
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches the current user's profile.
+   *
+   * @returns A promise that resolves to a CurrentUsersProfileResponse.
+   */
   async getCurrentUser(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
     const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}`;
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches the current user's top items (artists or tracks).
+   *
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to a UsersTopArtistsResponse or UsersTopTracksResponse.
+   */
   async getCurrentUserTopItems(
     options: TGetUsersTopItemsOptions,
   ): Promise<
@@ -34,59 +51,60 @@ export class User {
 
     const params: Record<string, string | number> = {};
 
-    if (options.time_range) params.time_range = options.time_range;
-    if (options.limit !== undefined) params.limit = options.limit;
-    if (options.offset !== undefined) params.offset = options.offset;
-
-    console.log('params', params);
+    if (options.limit !== undefined) {
+      params.limit = options.limit;
+    }
+    if (options.offset !== undefined) {
+      params.offset = options.offset;
+    }
+    if (options.time_range) {
+      params.time_range = options.time_range;
+    }
 
     url = this.provider.injectParamsIntoUrl(url, params);
     return await this.provider.makeRequest(url);
   }
 
-  async followPlaylist(playlistId: string): Promise<void> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/followers`;
-    return await this.provider.makeRequest(url, 'PUT');
-  }
-
-  async unfollowPlaylist(playlistId: string): Promise<void> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/followers`;
-    return await this.provider.makeRequest(url, 'DELETE');
-  }
-
-  async getFollowedArtists(): Promise<SpotifyApi.UsersFollowedArtistsResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following?type=artist`;
-    return await this.provider.makeRequest(url);
-  }
-
+  /**
+   * Follows artists or users.
+   *
+   * @param options - The options for following artists or users.
+   * @returns A promise that resolves when the follow action is complete.
+   */
   async followArtistsOrUsers(
     options: TFollowArtistOrUserOptions,
   ): Promise<void> {
-    const { type, ids } = options;
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following?type=${type}`;
-    return await this.provider.makeRequest(url, 'PUT', { ids });
+    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following`;
+    return await this.provider.makeRequest(url, 'PUT', options);
   }
 
+  /**
+   * Unfollows artists or users.
+   *
+   * @param options - The options for unfollowing artists or users.
+   * @returns A promise that resolves when the unfollow action is complete.
+   */
   async unfollowArtistsOrUsers(
     options: TFollowArtistOrUserOptions,
   ): Promise<void> {
-    const { type, ids } = options;
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following?type=${type}`;
-    return await this.provider.makeRequest(url, 'DELETE', { ids });
+    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following`;
+    return await this.provider.makeRequest(url, 'DELETE', options);
   }
 
-  async checkIfFollowsArtistsOrUsers(
-    options: TFollowArtistOrUserOptions,
-  ): Promise<SpotifyApi.UserFollowsUsersOrArtistsResponse> {
-    const { type, ids } = options;
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following/contains?type=${type}&ids=${encodeURIComponent(ids.join(','))}`;
-    return await this.provider.makeRequest(url);
-  }
-
-  async checkIfFollowsPlaylist(
-    playlistId: string,
-  ): Promise<SpotifyApi.UsersFollowPlaylistResponse> {
-    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.playlists}${playlistId}/followers/contains`;
+  /**
+   * Checks if the current user follows specific artists or users.
+   *
+   * @param type - The type of entity to check (artist or user).
+   * @param ids - An array of IDs to check.
+   * @returns A promise that resolves to an array of booleans indicating whether each entity is followed.
+   */
+  async checkCurrentUserFollows(
+    type: 'artist' | 'user',
+    ids: string[],
+  ): Promise<boolean[]> {
+    const url = `${SPOTIFY_API_BASE_URL}${SPOTIFY_METHODS_PATHS.current_user}following/contains?type=${type}&ids=${encodeURIComponent(
+      ids.join(','),
+    )}`;
     return await this.provider.makeRequest(url);
   }
 }

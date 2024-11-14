@@ -39,6 +39,13 @@ export class Song {
     this.provider = provider;
   }
 
+  /**
+   * Fetches a catalog song by its ID.
+   *
+   * @param id - The ID of the song to fetch.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to a SongResponse.
+   */
   async getCatalogSongById(
     id: string,
     options: TGetCatalogSongByIdOptions,
@@ -60,6 +67,13 @@ export class Song {
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches several catalog songs by their IDs.
+   *
+   * @param ids - An array of song IDs to fetch.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to a SongResponse.
+   */
   async getSeveralCatalogSongsByIds(
     ids: string[],
     options: TGetSeveralCatalogSongsByIdsOptions,
@@ -83,6 +97,13 @@ export class Song {
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches multiple songs by their ISRCs.
+   *
+   * @param isrcs - An array of ISRCs to fetch songs for.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to a SongResponse.
+   */
   async getMultipleByISRC(
     isrcs: string[],
     options?: TGetMultipleByISRCOptions,
@@ -108,6 +129,12 @@ export class Song {
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Fetches the saved tracks for the current user.
+   *
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to a SongResponse.
+   */
   async getSavedTracks(options: TGetSavedTracksOptions): Promise<SongResponse> {
     let url = `${APPLE_MUSIC_BASE_URL}/v1/me/library/songs`;
     const params: Record<string, string | number> = {};
@@ -132,6 +159,13 @@ export class Song {
     return await this.provider.makeRequest(url);
   }
 
+  /**
+   * Saves tracks for the current user.
+   *
+   * @param trackIds - An array of track IDs to save.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves when the tracks are saved.
+   */
   async saveTracksForUser(
     trackIds: string[],
     options: TSaveTracksForUserOptions,
