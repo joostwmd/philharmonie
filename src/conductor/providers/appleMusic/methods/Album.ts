@@ -1,90 +1,103 @@
-import type { AppleMusicConductorProvider } from '..';
-import { APPLE_MUSIC_BASE_URL, APPLE_MUSIC_METHODS_PATHS } from '../constants';
-import type { AlbumResponse } from '../types/response';
-
-type TGetAlbumsByUPCOptions = {
-  l?: string;
-  include?: string;
-  extend?: string;
-};
-
-export type TGetSavedAlbumsForUserOptions = {
-  include?: string;
-  l?: string;
-  limit?: number;
-  offset?: string;
-  extend?: string;
-};
-
-export type TSaveAlbumsForUserOptions = {
-  localization?: string;
-};
+import type { SpotifyConductorProvider } from '../../spotify';
+import { SPOTIFY_API_BASE_URL } from '../../spotify/constants';
+import type { TLimitAndOffsetOptions } from '../../spotify/types/input';
+import type { SpotifyApi } from '../../spotify/types/typed';
 
 export class Album {
-  private provider: AppleMusicConductorProvider;
+  private provider: SpotifyConductorProvider;
 
-  constructor(provider: AppleMusicConductorProvider) {
+  constructor(provider: SpotifyConductorProvider) {
     this.provider = provider;
   }
 
   /**
-   * Fetches multiple albums by their UPCs.
+   * Fetches an album by its ID.
    *
-   * @param upcs - An array of UPCs to fetch albums for.
-   * @param options - Additional options for the request.
-   * @returns A promise that resolves to an AlbumResponse.
+   * @param albumId - The ID of the album to fetch.
+   * @returns A promise that resolves to a SingleAlbumResponse.
    */
-  async getMultipleByUPC(
-    upcs: string[],
-    options: TGetAlbumsByUPCOptions,
-  ): Promise<AlbumResponse> {
-    let url = `${APPLE_MUSIC_BASE_URL}${APPLE_MUSIC_METHODS_PATHS.catalog}${this.provider.market}/albums`;
-    const params: Record<string, string> = {
-      ...options,
-      'filter[upc]': upcs.join(','),
-    };
+  async getById(albumId: string): Promise<SpotifyApi.SingleAlbumResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums/${albumId}`;
+    url = this.provider.injectMarketIntoUrl(url);
+    return await this.provider.makeRequest(url);
+  }
 
-    url = this.provider.injectParamsIntoUrl(url, params);
-    return await this.provider.makeRequest(url.toString());
+  /**
+   * Fetches several albums by their IDs.
+   *
+   * @param albumIds - An array of album IDs to fetch.
+   * @returns A promise that resolves to a MultipleAlbumsResponse.
+   */
+  async getSeveralById(
+    albumIds: string[],
+  ): Promise<SpotifyApi.MultipleAlbumsResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums?ids=${encodeURIComponent(albumIds.join(','))}`;
+    url = this.provider.injectMarketIntoUrl(url);
+    return await this.provider.makeRequest(url);
+  }
+
+  /**
+   * Fetches the tracks of an album by its ID.
+   *
+   * @param albumId - The ID of the album to fetch tracks for.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to an AlbumTracksResponse.
+   */
+  async getTracks(
+    albumId: string,
+    options: TLimitAndOffsetOptions,
+  ): Promise<SpotifyApi.AlbumTracksResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}albums/${albumId}/tracks`;
+    url = this.provider.injectMarketIntoUrl(url);
+    url = this.provider.injectParamsIntoUrl(url, options);
+    return await this.provider.makeRequest(url);
   }
 
   /**
    * Fetches the saved albums for the current user.
    *
    * @param options - Additional options for the request.
-   * @returns A promise that resolves to an AlbumResponse.
+   * @returns A promise that resolves to a UsersSavedAlbumsResponse.
    */
-  async getSavedAlbumsForUser(
-    options: TGetSavedAlbumsForUserOptions,
-  ): Promise<AlbumResponse> {
-    let url = `${APPLE_MUSIC_BASE_URL}me/library/albums`;
-    const params: Record<string, string | number> = { ...options };
-
-    url = this.provider.injectParamsIntoUrl(url, params);
-    return await this.provider.makeRequest(url.toString());
+  async getUsersSavedAlbums(
+    options: TLimitAndOffsetOptions,
+  ): Promise<SpotifyApi.UsersSavedAlbumsResponse> {
+    let url = `${SPOTIFY_API_BASE_URL}me/albums`;
+    url = this.provider.injectMarketIntoUrl(url);
+    url = this.provider.injectParamsIntoUrl(url, options);
+    return await this.provider.makeRequest(url);
   }
 
   /**
    * Saves albums for the current user.
    *
    * @param albumIds - An array of album IDs to save.
-   * @param options - Additional options for the request.
    * @returns A promise that resolves when the albums are saved.
    */
-  async saveAlbumsForUser(
-    albumIds: string[],
-    options: TSaveAlbumsForUserOptions,
-  ): Promise<void> {
-    let url = `${APPLE_MUSIC_BASE_URL}me/library`;
-    const params: Record<string, string> = {
-      'ids[albums]': albumIds.join(','),
-    };
+  async saveAlbumsForUser(albumIds: string[]): Promise<void> {
+    const url = `${SPOTIFY_API_BASE_URL}me/albums`;
+    return await this.provider.makeRequest(url, 'PUT', { ids: albumIds });
+  }
 
-    if (options.localization) {
-      params.l = options.localization;
-    }
+  /**
+   * Removes albums for the current user.
+   *
+   * @param albumIds - An array of album IDs to remove.
+   * @returns A promise that resolves when the albums are removed.
+   */
+  async removeAlbumsForUser(albumIds: string[]): Promise<void> {
+    const url = `${SPOTIFY_API_BASE_URL}me/albums`;
+    return await this.provider.makeRequest(url, 'DELETE', { ids: albumIds });
+  }
 
-    url = this.provider.injectParamsIntoUrl(url, params);
-    return await this.provider.makeRequest(url, 'POST');
+  /**
+   * Checks if the current user has saved specific albums.
+   *
+   * @param albumIds - An array of album IDs to check.
+   * @returns A promise that resolves to an array of booleans indicating whether each album is saved.
+   */
+  async checkUsersSavedAlbums(albumIds: string[]): Promise<boolean[]> {
+    const url = `${SPOTIFY_API_BASE_URL}me/albums/contains?ids=${encodeURIComponent(albumIds.join(','))}`;
+    return await this.provider.makeRequest(url);
   }
 }
