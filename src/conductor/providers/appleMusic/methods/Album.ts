@@ -27,6 +27,13 @@ export class Album {
     this.provider = provider;
   }
 
+  /**
+   * Fetches multiple albums by their UPCs.
+   *
+   * @param upcs - An array of UPCs to fetch albums for.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to an AlbumResponse.
+   */
   async getMultipleByUPC(
     upcs: string[],
     options: TGetAlbumsByUPCOptions,
@@ -41,6 +48,12 @@ export class Album {
     return await this.provider.makeRequest(url.toString());
   }
 
+  /**
+   * Fetches the saved albums for the current user.
+   *
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves to an AlbumResponse.
+   */
   async getSavedAlbumsForUser(
     options: TGetSavedAlbumsForUserOptions,
   ): Promise<AlbumResponse> {
@@ -51,6 +64,13 @@ export class Album {
     return await this.provider.makeRequest(url.toString());
   }
 
+  /**
+   * Saves albums for the current user.
+   *
+   * @param albumIds - An array of album IDs to save.
+   * @param options - Additional options for the request.
+   * @returns A promise that resolves when the albums are saved.
+   */
   async saveAlbumsForUser(
     albumIds: string[],
     options: TSaveAlbumsForUserOptions,
