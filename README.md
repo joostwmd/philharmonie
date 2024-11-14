@@ -392,17 +392,31 @@ First, head over to the [Spotify Developer Dashboard](https://developer.spotify.
 
 Then, create an app by clicking the "Create App" button.
 
+![screenshot of spotify developer dashboard](guides/client-credentials/spotify/1.png)
+
 Fill out the app name, description, and redirect URL, accept the terms and conditions, and create the app.
+
+![screenshot of spotify developer dashboard](guides/client-credentials/spotify/2.png)
 
 Click on "Settings" to go to the settings page.
 
+![screenshot of spotify developer dashboard](guides/client-credentials/spotify/3.png)
+
 Here you can see your client ID. To see the secret, you have to click on "View Client Secret."
 
-Now, copy and paste your client ID and secret.
+![screenshot of spotify developer dashboard](guides/client-credentials/spotify/4.png)
+
+Ta-daa you have your client ID and secret now.
+
+PS: I deleted this app so there is no point in trying the client credentials from the screenshot.
 
 ##### Development Mode vs Production Mode
 
-Initially, your app will be in development mode. This means you have limited requests available, but most importantly, you cannot authenticate any users. To authenticate users, you need to add their Spotify account email address to your app. For that, click on "User Management" and add the name and email address to your list of users. You can onboard 25 users in development mode; for more, submit a quota extension request.
+Initially, your app will be in development mode. This means you have limited requests available, but most importantly, you cannot authenticate any users. To authenticate users, you need to add their Spotify account email address to your app.
+
+For that, click on "User Management" and add the name and email address to your list of users. You can onboard 25 users in development mode; for more, submit a quota extension request.
+
+![screenshot of spotify developer dashboard](guides/client-credentials/spotify/5.png)
 
 ### Apple Music
 
