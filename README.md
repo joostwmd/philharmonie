@@ -221,82 +221,94 @@ This funciton fetches the current users market and sets it internally so it is a
 
 - Albums
 
-  - getById
-  - getSeveralById
-  - getTracks
-  - getUsersSavedAlbums
-  - saveAlbumForUser
-  - removeAlbumsForUser
-  - checkUsersSavedAlbums
+  - [getById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L40)
+  - [getUsersSavedAlbums](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L60)
+  - [saveAlbumForUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L77)
+  - [removeAlbumsForUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L100)
+  - [checkUsersSavedAlbums](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Album.ts#L111)
 
 - Artist
 
-  - getById
-  - getSeveralById
-  - getAlbums
-  - getTopTracks
-  - getRelatedArtists
+  - [getById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Artist.ts#L19)
+  - [getSeveralById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Artist.ts#L30)
+  - [getAlbums](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Artist.ts#L44)
+  - [getTopTracks](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Artist.ts#L70)
+  - [getRelatedArtists](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Artist.ts#L84)
 
 - Playlist
 
-  - getById
-  - changeDetails
-  - getItems
-  - updatePlaylistsItems
-  - addItemsToPlaylist
-  - removeItemsFromPlaylist
-  - getUserPlaylists
-  - createConductor
-  - addCoverImage
+  - [getById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L30)
+  - [changeDetails](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L56)
+  - [getItems](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L71)
+  - [updatePlaylistsItems](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L102)
+  - [addItemsToPlaylist](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L119)
+  - [removeItemsFromPlaylist](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L134)
+  - [getCurrentUserPlaylists](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L148)
+  - [getUsersPlaylist](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L164)
+  - [create](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L181)
+  - [addCoverImage](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Playlist.ts#L196)
 
 - Search
 
-  - forItem
+  - [forItem](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Search.ts#L19)
 
 - Track
 
-  - getById
-  - getSeveralById
-  - getUsersSavedTracks
-  - saveTracksForCurrentUser
-  - removeTracksForCurrentsUser
-  - checkUsersSavedTracks
-  - getAudioFeaturesById
-  - getSeveralAudioFeaturesById
-  - getRecommendations
+  - [getById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L23)
+  - [getSeveralById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L35)
+  - [getUsersSavedTracks](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L49)
+  - [saveTracksForCurrentUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L64)
+  - [removeTracksForCurrentsUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L75)
+  - [checkUsersSavedTracks](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L86)
+  - [getAudioFeaturesById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L99)
+  - [getSeveralAudioFeaturesById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L112)
+  - [getRecommendations](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/Track.ts#L125)
 
 - User
-  - getById
-  - getCurrentUser
-  - getCurrentUserTopItems
-  - followPlaylist
-  - unfollowPlaylist
-  - getFollowedArtists
-  - followArtistsOrUsers
-  - checkIfFollowsArtistsOrUsers
-  - checkIfFollowsPlaylist
+  - [getById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/User.ts#L22)
+  - [getCurrentUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/User.ts#L32)
+  - [getCurrentUserTopItems](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/User.ts#L43)
+  - [unfollowArtistsOrUsers](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/User.ts#L87)
+  - [followArtistsOrUsers](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/User.ts#L74)
+  - [checkIfFollowsArtistsOrUsers](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/spotify/methods/User.ts#L101)
 
 #### Apple Music
 
 - Album
-  - getMutipleByUPC
-  - getSavedAlbumsForUser
-  - saveAlbumsForUsers
+
+  - [getMutipleByUPC](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Album.ts#L37)
+
+  - [getSavedAlbumsForUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Album.ts#L57)
+
+  - [saveAlbumsForUsers](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Album.ts#L74)
+
 - Playlist
-  - getLibraryById
-  - create
-  - addTracksToPlaylist
-  - getUserPlaylistTracks
+
+  - [getLibraryById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Playlist.ts#L41)
+
+  - [create](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Playlist.ts#L74)
+
+  - [addTracksToPlaylist](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Playlist.ts#L100)
+
+  - [getUserPlaylistTracks](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Playlist.ts#L123)
+
+  - [getCurrentUsersPlaylist](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Playlist.ts#L58)
+
 - Search
-  - searchCatalog
+
+  - [searchCatalog](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Search.ts#L39)
+
 - Song
-  - getCatalogSongById
-  - getSeveralCatalogSingsByIds
-  - getMutipleByISRC
-  - getSavedTracks
-  - saveTracksForUser
+
+  - [getCatalogSongById](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Song.ts#L49)
+
+  - [getSeveralCatalogSingsByIds](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Song.ts#L77)
+  - [getMutipleByISRC](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Song.ts#L107)
+  - [getSavedTracks](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Song.ts#L138)
+  - [saveTracksForUser](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/Song.ts#L169)
+
 - User
-  - getStorefront
+  - [getStorefront](https://github.com/joostwmd/opera/blob/23a0782366a496d707d11583ffe46022338ead01/src/conductor/providers/appleMusic/methods/User.ts#L26)
 
 ### Error Handeling
 
