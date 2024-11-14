@@ -9,17 +9,17 @@ Currently, Philharmonie supports integration with Spotify and Apple Music, allow
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
   - [Install the package](#install-the-package)
-  - [Import the Gardrobe and Dirigent](#import-the-gardrobe-and-dirigent)
+  - [Import the Gardrobe and Conductor](#import-the-gardrobe-and-Conductor)
   - [Initialize the Gardrobe](#initialize-the-gardrobe)
   - [Obtain a Token using the client credentials flow](#obtain-a-token-using-the-client-credentials-flow)
-  - [Initialize the Dirigent](#initialize-the-dirigent)
+  - [Initialize the Conductor](#initialize-the-Conductor)
   - [Make an API withClientCredentials](#make-an-api-withclientcredentials)
 - [Gardrobe](#gardrobe)
   - [Initializing the Gardrobe](#initializing-the-gardrobe)
   - [Obtain a Spotify token with Client Credentials flow](#obtain-a-spotify-token-with-client-credentials-flow)
   - [Refresh a Spotify session](#refresh-a-spotify-session)
-- [Dirigent](#dirigent)
-  - [Initializing the Dirigent](#initializing-the-dirigent)
+- [Conductor](#Conductor)
+  - [Initializing the Conductor](#initializing-the-Conductor)
   - [Methods of the Providers](#methods-of-the-providers)
     - [Spotify](#spotify)
     - [Apple Music](#apple-music)
@@ -39,11 +39,11 @@ Philharmonie consists of two building blocks:
 
 - Gardrobe: Use it to generate tokens with the Client-Credentials flow or extend a session by refreshing a token. This class is initialized using your client credentials and should only be used server-side.
 
-- Dirigent: Use it to fetch data from various streaming services, referred to as "providers." This class is initialized without client credentials. Instead, it uses access tokens and thus can be used anywhere.
+- Conductor: Use it to fetch data from various streaming services, referred to as "providers." This class is initialized without client credentials. Instead, it uses access tokens and thus can be used anywhere.
 
-These two building blocks provide a solid foundation for integrating music streaming data into your project. For tasks requiring single API calls, such as fetching playlist data, Gardrobe and Dirigent offer all necessary functionality. For more complex operations, like transferring playlists between services, you can utilize common flows from our Repertoire, which are available for copy-pasting into your project.
+These two building blocks provide a solid foundation for integrating music streaming data into your project. For tasks requiring single API calls, such as fetching playlist data, Gardrobe and Conductor offer all necessary functionality. For more complex operations, like transferring playlists between services, you can utilize common flows from our Repertoire, which are available for copy-pasting into your project.
 
-Note that user authentication is not included in this package to ensure compatibility with various tech stacks. For API endpoints requiring user authentication, such as adding tracks to a playlist, you must authenticate users through another service and pass the user access token to the Dirigent.
+Note that user authentication is not included in this package to ensure compatibility with various tech stacks. For API endpoints requiring user authentication, such as adding tracks to a playlist, you must authenticate users through another service and pass the user access token to the Conductor.
 
 ## Installation
 
@@ -58,7 +58,7 @@ Before you begin, ensure you have obtained your client credentials (ID and SECRE
 
 ```
 
-#### Import the Gardrobe and Dirigent
+#### Import the Gardrobe and Conductor
 
 ```js
 import { createConductor, createGarderobe } from 'philharmonie';
@@ -81,7 +81,7 @@ const garderobe = createGarderobe({
 const session = garderobe.spotify.createSession.withClientCredentials();
 ```
 
-#### Initialize the Dirigent
+#### Initialize the Conductor
 
 ```js
 export const conductor = createConductor({
@@ -100,9 +100,9 @@ export const conductor = createConductor({
 const playlistData = await conductor.spotify.playlist.getById('playlist-id');
 ```
 
-And thats it, you have successfully made you first API call using the Dirigent.
+And thats it, you have successfully made you first API call using the Conductor.
 
-Now learn more about the [Gardrobe](https://www.google.com) and [Dirigent](https://www.google.com) class
+Now learn more about the [Gardrobe](https://www.google.com) and [Conductor](https://www.google.com) class
 
 ## Gardrobe
 
@@ -146,20 +146,20 @@ const refreshedSession = garderobe.spotify.refreshSession('spotify-refresh-token
 
 This API call retruns a accessToken and a refreshToken.
 
-Once you obtained a valid token, you can use it to initalize the Dirigent class.
+Once you obtained a valid token, you can use it to initalize the Conductor class.
 
-## Dirigent
+## Conductor
 
-The Dirigent class provides methods for interacting with the API endpoints of integrated providers, currently including Spotify and Apple Music.
+The Conductor class provides methods for interacting with the API endpoints of integrated providers, currently including Spotify and Apple Music.
 
 Before utilizing these methods, it's important to understand three key principles:
 
-- Provider-Specific Structuring: Each provider within the Dirigent class mirrors the terminology and structure of its respective API. This design choice ensures consistency and ease of use when accessing different services.
+- Provider-Specific Structuring: Each provider within the Conductor class mirrors the terminology and structure of its respective API. This design choice ensures consistency and ease of use when accessing different services.
 
   - Spotify: Refers to audio files as "tracks." To retrieve a track by its ID, use the method:
 
   ```
-    dirigent.spotify.track.getById('spotiy-track-id')
+    Conductor.spotify.track.getById('spotiy-track-id')
   ```
 
   - Apple Music: Refers to audio files as "songs" and distinguishes between data stored in the user's library and data from the public catalog. To retrieve data for a public song, use:
@@ -168,7 +168,7 @@ Before utilizing these methods, it's important to understand three key principle
       conductor.appleMusic.song.getCatalogSongById('apple-music-song-id')
   ```
 
-- Market Specification: Due to varying copyright laws and content availability by country, music streaming providers require a market specification to ensure compliance with local regulations. When initializing the Dirigent class, you must provide a default market. Each provider also includes a helper method to fetch the current user's market, which can be used for future requests.
+- Market Specification: Due to varying copyright laws and content availability by country, music streaming providers require a market specification to ensure compliance with local regulations. When initializing the Conductor class, you must provide a default market. Each provider also includes a helper method to fetch the current user's market, which can be used for future requests.
 
 - To authenticate requests with provider services, you must provide access tokens, so you must initialize it with the necessary tokens.
 
@@ -176,15 +176,15 @@ Before utilizing these methods, it's important to understand three key principle
 
   - Apple Music: Requires a developer token for accessing public data. For endpoints involving user-specific actions, such as adding a track to a playlist, both a developer token and a user token are needed. The user token is optional if your application only accesses public data.
 
-### Initalizing the Dirigent
+### Initalizing the Conductor
 
-To initialize the Dirigent class you can use the function
+To initialize the Conductor class you can use the function
 
 ```
-createDirigent()
+createConductor()
 ```
 
-You have to pass an object containing the tokens and default market for every provider you want to use. The Dirigent can be used on server and client.
+You have to pass an object containing the tokens and default market for every provider you want to use. The Conductor can be used on server and client.
 
 ```
 export const conductor = createConductor({
@@ -210,9 +210,9 @@ export const conductor = createConductor({
 Every provider has a helper function called
 
 ```
-  dirigent.spotify.setUserMarker()
+  Conductor.spotify.setUserMarker()
 
-  dirigent.apple.setUserMarket()
+  Conductor.apple.setUserMarket()
 ```
 
 This funciton fetches the current users market and sets it internally so it is automatically used in future requests
